@@ -24,7 +24,7 @@ hs_err_pid*
 
 
 # project files
+/.mvn/
+/.idea/
 *.iml
-.idea
-.mvn
-target
+/target/
