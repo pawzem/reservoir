@@ -1,7 +1,9 @@
 package com.pz.reservoir.company;
 
 import com.pz.reservoir.party.PartyId;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class CompanyFacade {
 
     public PartyId addCompany(){
