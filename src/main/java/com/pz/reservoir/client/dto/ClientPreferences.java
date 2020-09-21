@@ -5,16 +5,10 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class ClientDto {
-    private final String carId;
-    private final String phoneNumber;
+public class ClientPreferences {
+    private final String clientId;
     private final CarType carType;
     private final boolean tiresInWarehouse;
     private final ServiceOption serviceOption;
     private final String rimDiameter;
-    private final String email;
-    private final String firstName;
-    private final String lastName;
-    //TODO car type, whole wheels/tires,
-
 }

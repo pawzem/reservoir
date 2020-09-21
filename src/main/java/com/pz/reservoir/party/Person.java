@@ -1,6 +1,9 @@
 package com.pz.reservoir.party;
 
+import com.pz.reservoir.preference.Preference;
+
 import java.util.List;
+import java.util.Set;
 
 public class Person extends Party{
 
@@ -8,8 +11,8 @@ public class Person extends Party{
 
 
 
-    Person(PartyId partyId, List<Address> addresses, List<RegisteredIdentifier> identifiers, String firstName, String surname){
-        super(partyId, addresses, identifiers);
+    Person(PartyId partyId, List<Address> addresses, List<RegisteredIdentifier> identifiers, Set<Preference> preferences, String firstName, String surname){
+        super(partyId, addresses, identifiers, preferences);
         this.personName= new PersonName(firstName, surname);
     }
 
