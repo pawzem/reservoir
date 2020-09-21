@@ -35,4 +35,6 @@ public class ClientFacade {
     public Person getClient(PartyId id){
         return partyRepository.find(id);
     }
+
+    //TODO model car as a party
 }
