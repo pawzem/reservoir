@@ -1,6 +1,6 @@
 package com.pz.reservoir.party;
 
-public class RegisteredIdentifier {
-    private String identifier;
+public abstract class RegisteredIdentifier {
+    public abstract String getIdentifier();
 
 }
