@@ -31,4 +31,8 @@ public class ClientFacade {
         return partyRepository.save(person);
 
     }
+
+    public Person getClient(PartyId id){
+        return partyRepository.find(id);
+    }
 }
