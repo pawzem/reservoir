@@ -1,10 +1,10 @@
 package com.pz.reservoir.relationship;
 
-import com.pz.reservoir.party.PartyId;
+import com.pz.reservoir.party.Party;
 
 public abstract class PartyRoleType {
     private String name;
     private String description;
 
-    abstract boolean canPlayRole(PartyId partyId);
+    public abstract boolean canPlayRole(Party party);
 }

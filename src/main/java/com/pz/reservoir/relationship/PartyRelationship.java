@@ -7,8 +7,8 @@ import lombok.AllArgsConstructor;
 public class PartyRelationship {
     private String name;
     private String description;
-    private PartyRole clientPartyRole;
-    private PartyRole supplierPartyRole;
-    private String relationshipIdentifier;
+    private RoleIdentifier clientPartyRole;
+    private RoleIdentifier supplierPartyRole;
+    private RelationshipIdentifier relationshipIdentifier;
     private PartyRelationshipType partyRelationshipType;
 }

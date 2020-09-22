@@ -9,5 +9,5 @@ public abstract class PartyRelationshipType {
     private String name;
     private String description;
 
-    abstract boolean canFormRelationship(PartyRole clientRole, PartyRole supplierRole);
+    public abstract boolean canFormRelationship(PartyRole clientRole, PartyRole supplierRole);
 }
