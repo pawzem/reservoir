@@ -7,7 +7,7 @@ import lombok.ToString;
 
 import java.util.Set;
 
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 @Getter
 @ToString
 public class PreferenceType {

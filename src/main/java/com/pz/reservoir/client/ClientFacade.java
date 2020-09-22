@@ -6,6 +6,10 @@ import com.pz.reservoir.party.*;
 import com.pz.reservoir.party.address.EmailAddress;
 import com.pz.reservoir.party.address.TelecomAddress;
 import com.pz.reservoir.party.identifiers.CarRegistrationNumber;
+import com.pz.reservoir.preference.Preference;
+import com.pz.reservoir.preference.PreferenceFactory;
+import com.pz.reservoir.preference.PreferenceIdFactory;
+import com.pz.reservoir.preference.PreferenceTypeRepository;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -16,6 +20,8 @@ import java.util.Set;
 public class ClientFacade {
 
     private final PartyRepository<Person> partyRepository;
+    private final PartyRepository<Car> carRepository;
+    private final PreferenceTypeRepository preferenceTypeRepository;
 
     public PartyId addClient(Client client){
         var telecomAddress = new TelecomAddress(client.getPhoneNumber());
@@ -26,11 +32,12 @@ public class ClientFacade {
 
     public PartyId addCar(ClientPreferences car){
         List<RegisteredIdentifier> identifiers = List.of(new CarRegistrationNumber(car.getRegistrationNumber()));
-        var vehicle = PartyFactory.createCar(List.of(), identifiers, Set.of(), car.getCarType().name(), car.getRimDiameter(), car.getDisplayName());
+        Preference serviceOption = PreferenceFactory.generate(preferenceTypeRepository.find(PreferenceIdFactory.of(car.getPreferenceId())), car.getServiceOption().name());
+        Preference storage = PreferenceFactory.generate(preferenceTypeRepository.find(PreferenceIdFactory.of(car.getPreferenceId())), car.getTiresStorage().name());
+        var vehicle = PartyFactory.createCar(List.of(), identifiers, Set.of(serviceOption, storage), car.getCarType().name(), car.getRimDiameter(), car.getDisplayName());
 
-        //TODO add relation owner
-        //TODO add preferences for wheels,storage
-        return partyRepository.save(vehicle);
+        //TODO add relation to owner
+        return carRepository.save(vehicle);
 
     }
 
@@ -38,5 +45,8 @@ public class ClientFacade {
         return partyRepository.find(id);
     }
 
-    //TODO model car as a party
+    public Car getCar(PartyId id){
+        return carRepository.find(id);
+    }
+
 }

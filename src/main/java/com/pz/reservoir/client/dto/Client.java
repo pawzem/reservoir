@@ -9,8 +9,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class Client {
     @NotNull
-    private final String carId;
-    @NotNull
     private final String phoneNumber;
     private final String email;
     private final String firstName;

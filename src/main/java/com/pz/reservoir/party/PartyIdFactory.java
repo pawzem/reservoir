@@ -3,7 +3,7 @@ package com.pz.reservoir.party;
 import java.util.UUID;
 
 public class PartyIdFactory {
-    static PartyId generate(){
+    public static PartyId generate(){
         return new PartyId(UUID.randomUUID().toString());
     }
 

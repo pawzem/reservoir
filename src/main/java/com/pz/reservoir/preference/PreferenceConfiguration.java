@@ -1,0 +1,18 @@
+package com.pz.reservoir.preference;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
+@Configuration
+public class PreferenceConfiguration {
+
+    @Bean
+    @Profile("InMemoryRepository")
+    PreferenceTypeRepository partyRepository(){
+        return new PreferenceTypeInMemoryRepository();
+    }
+
+
+
+}
