@@ -10,4 +10,9 @@ public class PartyFactory {
         var partyId = PartyIdFactory.generate();
         return new Person(partyId, addresses, identifiers, preferences, firstName, surname);
     }
+
+    public static Car createCar(List<Address> addresses, List<RegisteredIdentifier> identifiers, Set<Preference> preferences, String carType, String rimDiameter, String displayName){
+        var partyId = PartyIdFactory.generate();
+        return new Car(partyId, addresses, identifiers, preferences, displayName, rimDiameter, carType);
+    }
 }

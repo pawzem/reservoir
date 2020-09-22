@@ -20,15 +20,17 @@ public class ClientFacade {
     public PartyId addClient(Client client){
         var telecomAddress = new TelecomAddress(client.getPhoneNumber());
         List<Address> addresses = Objects.isNull(client.getEmail()) ? List.of(telecomAddress) : List.of(telecomAddress, new EmailAddress(client.getEmail()));
-        List<RegisteredIdentifier> identifiers = List.of(new CarRegistrationNumber(client.getCarId()));
-        var person = PartyFactory.createPerson(addresses, identifiers, Set.of(), client.getFirstName(), client.getLastName());
+        var person = PartyFactory.createPerson(addresses, List.of(), Set.of(), client.getFirstName(), client.getLastName());
         return partyRepository.save(person);
     }
 
-    public PartyId addPreferences(ClientPreferences preferences){
-        var person = partyRepository.find(PartyIdFactory.of(preferences.getClientId()));
-        //TODO build preferences
-        return partyRepository.save(person);
+    public PartyId addCar(ClientPreferences car){
+        List<RegisteredIdentifier> identifiers = List.of(new CarRegistrationNumber(car.getRegistrationNumber()));
+        var vehicle = PartyFactory.createCar(List.of(), identifiers, Set.of(), car.getCarType().name(), car.getRimDiameter(), car.getDisplayName());
+
+        //TODO add relation owner
+        //TODO add preferences for wheels,storage
+        return partyRepository.save(vehicle);
 
     }
 
