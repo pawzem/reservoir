@@ -13,5 +13,4 @@ public class ClientPreferences {
     private final String rimDiameter;
     private final String registrationNumber;
     private final String displayName;
-    private final String preferenceId;
 }

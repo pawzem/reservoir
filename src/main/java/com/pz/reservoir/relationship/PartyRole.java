@@ -13,7 +13,5 @@ public abstract class PartyRole {
     private String name;
     private String description;
     private PartyId party;
-    private RoleIdentifier roleIdentifier;
-    private PartyRoleType partyRoleType;
     private Set<Preference> preferences;
 }

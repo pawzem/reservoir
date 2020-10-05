@@ -1,17 +1,12 @@
 package com.pz.reservoir.relationship.relationships;
 
-import com.pz.reservoir.relationship.PartyRelationshipType;
-import com.pz.reservoir.relationship.PartyRole;
-import com.pz.reservoir.relationship.roles.VehicleOwner;
+import com.pz.reservoir.relationship.PartyRelationship;
+import com.pz.reservoir.relationship.RelationshipIdentifier;
 
-public class VehicleOwnership extends PartyRelationshipType {
+public class VehicleOwnership extends PartyRelationship<Vehicle, VehicleOwner> {
 
-    public VehicleOwnership(String name, String description) {
-        super("vehicle ownership", "relationship between owner and it's vehicle");
+    public VehicleOwnership(Vehicle vehicle, VehicleOwner owner, RelationshipIdentifier id) {
+        super("vehicle ownership", "relationship between owner and it's vehicle", vehicle, owner, id);
     }
 
-    @Override
-    public boolean canFormRelationship(PartyRole clientRole, PartyRole supplierRole) {
-        return supplierRole.getPartyRoleType() instanceof VehicleOwner;
-    }
 }

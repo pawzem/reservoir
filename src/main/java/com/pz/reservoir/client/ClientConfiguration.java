@@ -4,6 +4,8 @@ import com.pz.reservoir.party.Car;
 import com.pz.reservoir.party.PartyRepository;
 import com.pz.reservoir.party.Person;
 import com.pz.reservoir.preference.PreferenceTypeRepository;
+import com.pz.reservoir.relationship.PartyRelationShipRepository;
+import com.pz.reservoir.relationship.relationships.VehicleOwnership;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -12,8 +14,10 @@ import org.springframework.context.annotation.Profile;
 class ClientConfiguration {
 
     @Bean
-    ClientFacade clientFacade(PartyRepository<Person> partyRepository, PartyRepository<Car> carPartyRepository, PreferenceTypeRepository preferenceTypeRepository){
-        return new ClientFacade(partyRepository, carPartyRepository, preferenceTypeRepository);
+    ClientFacade clientFacade(PartyRepository<Person> partyRepository,
+                              PartyRepository<Car> carPartyRepository,
+                              PartyRelationShipRepository<VehicleOwnership> vehicleOwnershipPartyRelationShipRepository){
+        return new ClientFacade(partyRepository, carPartyRepository, vehicleOwnershipPartyRelationShipRepository);
     }
 
     @Bean
@@ -26,5 +30,11 @@ class ClientConfiguration {
     @Profile("InMemoryRepository")
     PartyRepository<Car> carRepository(){
         return new CarInMemoryRepository();
+    }
+
+    @Bean
+    @Profile("InMemoryRepository")
+    PartyRelationShipRepository<VehicleOwnership> vehicleOwnershipRepository(){
+        return new VehicleOwnershipInMemoryRepository();
     }
 }

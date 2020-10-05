@@ -10,6 +10,10 @@ import com.pz.reservoir.preference.Preference;
 import com.pz.reservoir.preference.PreferenceFactory;
 import com.pz.reservoir.preference.PreferenceIdFactory;
 import com.pz.reservoir.preference.PreferenceTypeRepository;
+import com.pz.reservoir.relationship.PartyRelationShipRepository;
+import com.pz.reservoir.relationship.RelationshipFactory;
+import com.pz.reservoir.relationship.RelationshipIdentifier;
+import com.pz.reservoir.relationship.relationships.VehicleOwnership;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -21,8 +25,7 @@ public class ClientFacade {
 
     private final PartyRepository<Person> partyRepository;
     private final PartyRepository<Car> carRepository;
-    private final PreferenceTypeRepository preferenceTypeRepository;
-
+    private final PartyRelationShipRepository<VehicleOwnership> vehicleOwnershipPartyRelationShipRepository;
     public PartyId addClient(Client client){
         var telecomAddress = new TelecomAddress(client.getPhoneNumber());
         List<Address> addresses = Objects.isNull(client.getEmail()) ? List.of(telecomAddress) : List.of(telecomAddress, new EmailAddress(client.getEmail()));
@@ -30,14 +33,10 @@ public class ClientFacade {
         return partyRepository.save(person);
     }
 
-    public PartyId addCar(ClientPreferences car){
-        List<RegisteredIdentifier> identifiers = List.of(new CarRegistrationNumber(car.getRegistrationNumber()));
-        Preference serviceOption = PreferenceFactory.generate(preferenceTypeRepository.find(PreferenceIdFactory.of(car.getPreferenceId())), car.getServiceOption().name());
-        Preference storage = PreferenceFactory.generate(preferenceTypeRepository.find(PreferenceIdFactory.of(car.getPreferenceId())), car.getTiresStorage().name());
-        var vehicle = PartyFactory.createCar(List.of(), identifiers, Set.of(serviceOption, storage), car.getCarType().name(), car.getRimDiameter(), car.getDisplayName());
-
-        //TODO add relation to owner
-        return carRepository.save(vehicle);
+    public RelationshipIdentifier addCar(ClientPreferences car){
+        PartyId carId = createCar(car);
+        var vehicleOwnership = RelationshipFactory.createOwnershipRelation(PartyIdFactory.of(car.getOwnerId()), carId);
+        return vehicleOwnershipPartyRelationShipRepository.save(vehicleOwnership);
 
     }
 
@@ -49,4 +48,18 @@ public class ClientFacade {
         return carRepository.find(id);
     }
 
+    public VehicleOwnership getRelationship(RelationshipIdentifier id){
+        return vehicleOwnershipPartyRelationShipRepository.find(id);
+    }
+
+
+    private PartyId createCar(ClientPreferences car) {
+        List<RegisteredIdentifier> identifiers = List.of(new CarRegistrationNumber(car.getRegistrationNumber()));
+//        TODO service type to be moved to some kind catalog
+//        Preference serviceOption = PreferenceFactory.generate(preferenceTypeRepository.find(PreferenceIdFactory.of(car.getPreferenceId())), car.getServiceOption().name());
+//        relationship to organization unit
+//        Preference storage = PreferenceFactory.generate(preferenceTypeRepository.find(PreferenceIdFactory.of(car.getPreferenceId())), car.getTiresStorage().name());
+        var vehicle = PartyFactory.createCar(List.of(), identifiers, Set.of(), car.getCarType().name(), car.getRimDiameter(), car.getDisplayName());
+        return carRepository.save(vehicle);
+    }
 }
