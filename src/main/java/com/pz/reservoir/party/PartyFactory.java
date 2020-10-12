@@ -21,4 +21,10 @@ public class PartyFactory {
         var organizationName = new OrganizationName(name);
         return new Company(organizationName, partyId, addresses, identifiers, preferences);
     }
+
+    public static OrganizationUnit createUnit(String name, List<Address> addresses, List<RegisteredIdentifier> identifiers, Set<Preference> preferences) {
+        var partyId = PartyIdFactory.generate();
+        var organizationName = new OrganizationName(name);
+        return new OrganizationUnit(partyId, organizationName, addresses, identifiers, preferences);
+    }
 }
