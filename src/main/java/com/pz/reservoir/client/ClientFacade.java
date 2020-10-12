@@ -26,6 +26,7 @@ public class ClientFacade {
     private final PartyRepository<Person> partyRepository;
     private final PartyRepository<Car> carRepository;
     private final PartyRelationShipRepository<VehicleOwnership> vehicleOwnershipPartyRelationShipRepository;
+
     public PartyId addClient(Client client){
         var telecomAddress = new TelecomAddress(client.getPhoneNumber());
         List<Address> addresses = Objects.isNull(client.getEmail()) ? List.of(telecomAddress) : List.of(telecomAddress, new EmailAddress(client.getEmail()));

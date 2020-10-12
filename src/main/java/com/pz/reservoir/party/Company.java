@@ -8,8 +8,8 @@ import java.util.Set;
 public class Company extends Organization{
 
 
-    Company(PartyId partyId, List<Address> addresses, List<RegisteredIdentifier> identifier, Set<Preference> preferences) {
-        super(partyId, addresses, identifier, preferences);
+    Company(OrganizationName name, PartyId partyId, List<Address> addresses, List<RegisteredIdentifier> identifier, Set<Preference> preferences) {
+        super(partyId, name, addresses, identifier, preferences);
     }
 
 }

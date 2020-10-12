@@ -7,8 +7,8 @@ import java.util.Set;
 
 public abstract class OrganizationUnit extends Organization{
 
-    OrganizationUnit(PartyId partyId, List<Address> addresses, List<RegisteredIdentifier> identifier, Set<Preference> preferences) {
-        super(partyId, addresses, identifier, preferences);
+    OrganizationUnit(PartyId partyId,OrganizationName name, List<Address> addresses, List<RegisteredIdentifier> identifier, Set<Preference> preferences) {
+        super(partyId,name, addresses, identifier, preferences);
     }
 
 }

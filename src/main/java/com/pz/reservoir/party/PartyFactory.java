@@ -15,4 +15,10 @@ public class PartyFactory {
         var partyId = PartyIdFactory.generate();
         return new Car(partyId, addresses, identifiers, preferences, displayName, carType);
     }
+
+    public static Company createCompany(String name, List<Address> addresses, List<RegisteredIdentifier> identifiers, Set<Preference> preferences) {
+        var partyId = PartyIdFactory.generate();
+        var organizationName = new OrganizationName(name);
+        return new Company(organizationName, partyId, addresses, identifiers, preferences);
+    }
 }
