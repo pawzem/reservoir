@@ -4,6 +4,8 @@ import com.pz.reservoir.client.dto.*;
 import com.pz.reservoir.party.PartyIdFactory;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -39,7 +41,7 @@ class ClientFacadeTest {
                 CarType.CAR,
                 TireStorage.WAREHOUSE,
                 ServiceOption.JUST_TIRES,
-                "17'",
+                List.of("17'"),
                 "SK12345",
                 "BMW M4"
                 );
@@ -63,7 +65,7 @@ class ClientFacadeTest {
                 CarType.CAR,
                 TireStorage.WAREHOUSE,
                 ServiceOption.JUST_TIRES,
-                "17'",
+                List.of("17'"),
                 "SK12345",
                 "BMW M4"
         );

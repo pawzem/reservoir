@@ -11,8 +11,8 @@ public class PartyFactory {
         return new Person(partyId, addresses, identifiers, preferences, firstName, surname);
     }
 
-    public static Car createCar(List<Address> addresses, List<RegisteredIdentifier> identifiers, Set<Preference> preferences, String carType, String rimDiameter, String displayName){
+    public static Car createCar(List<Address> addresses, List<RegisteredIdentifier> identifiers, Set<Preference> preferences, String carType, String displayName){
         var partyId = PartyIdFactory.generate();
-        return new Car(partyId, addresses, identifiers, preferences, displayName, rimDiameter, carType);
+        return new Car(partyId, addresses, identifiers, preferences, displayName, carType);
     }
 }

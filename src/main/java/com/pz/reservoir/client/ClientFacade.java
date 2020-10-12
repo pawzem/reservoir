@@ -59,7 +59,7 @@ public class ClientFacade {
 //        Preference serviceOption = PreferenceFactory.generate(preferenceTypeRepository.find(PreferenceIdFactory.of(car.getPreferenceId())), car.getServiceOption().name());
 //        relationship to organization unit
 //        Preference storage = PreferenceFactory.generate(preferenceTypeRepository.find(PreferenceIdFactory.of(car.getPreferenceId())), car.getTiresStorage().name());
-        var vehicle = PartyFactory.createCar(List.of(), identifiers, Set.of(), car.getCarType().name(), car.getRimDiameter(), car.getDisplayName());
+        var vehicle = PartyFactory.createCar(List.of(), identifiers, Set.of(), car.getCarType().name(), car.getDisplayName());
         return carRepository.save(vehicle);
     }
 }
