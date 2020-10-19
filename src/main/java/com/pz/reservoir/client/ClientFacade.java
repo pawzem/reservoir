@@ -1,18 +1,16 @@
 package com.pz.reservoir.client;
 
+import com.pz.reservoir.buisness.dto.Employee;
 import com.pz.reservoir.client.dto.Client;
 import com.pz.reservoir.client.dto.ClientPreferences;
 import com.pz.reservoir.party.*;
 import com.pz.reservoir.party.address.EmailAddress;
 import com.pz.reservoir.party.address.TelecomAddress;
 import com.pz.reservoir.party.identifiers.CarRegistrationNumber;
-import com.pz.reservoir.preference.Preference;
-import com.pz.reservoir.preference.PreferenceFactory;
-import com.pz.reservoir.preference.PreferenceIdFactory;
-import com.pz.reservoir.preference.PreferenceTypeRepository;
 import com.pz.reservoir.relationship.PartyRelationShipRepository;
 import com.pz.reservoir.relationship.RelationshipFactory;
 import com.pz.reservoir.relationship.RelationshipIdentifier;
+import com.pz.reservoir.relationship.relationships.Employment;
 import com.pz.reservoir.relationship.relationships.VehicleOwnership;
 import lombok.AllArgsConstructor;
 
@@ -26,6 +24,8 @@ public class ClientFacade {
     private final PartyRepository<Person> partyRepository;
     private final PartyRepository<Car> carRepository;
     private final PartyRelationShipRepository<VehicleOwnership> vehicleOwnershipPartyRelationShipRepository;
+    private final PartyRepository<Person> employeeRepository;
+    private final PartyRelationShipRepository<Employment> employmentRelationShipRepository;
 
     public PartyId addClient(Client client){
         var telecomAddress = new TelecomAddress(client.getPhoneNumber());
@@ -62,5 +62,25 @@ public class ClientFacade {
 //        Preference storage = PreferenceFactory.generate(preferenceTypeRepository.find(PreferenceIdFactory.of(car.getPreferenceId())), car.getTiresStorage().name());
         var vehicle = PartyFactory.createCar(List.of(), identifiers, Set.of(), car.getCarType().name(), car.getDisplayName());
         return carRepository.save(vehicle);
+    }
+
+
+    public RelationshipIdentifier addEmployee(Employee employeeDto){
+        PartyId employee = createEmployee(employeeDto);
+        Employment employment = RelationshipFactory.createEmployment(employee, PartyIdFactory.of(employeeDto.getOrganizationId()));
+        return employmentRelationShipRepository.save(employment);
+    }
+
+    private PartyId createEmployee(Employee employee) {
+        var person = PartyFactory.createPerson(List.of(), List.of(), Set.of(), employee.getFirstName(), employee.getLastName());
+        return employeeRepository.save(person);
+    }
+
+    public Employment getEmployment(RelationshipIdentifier relationshipIdentifier){
+        return employmentRelationShipRepository.find(relationshipIdentifier);
+    }
+
+    public Person getEmployee(PartyId partyId){
+        return employeeRepository.find(partyId);
     }
 }

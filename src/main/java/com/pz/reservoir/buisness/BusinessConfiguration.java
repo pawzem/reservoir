@@ -19,15 +19,11 @@ class BusinessConfiguration {
     BusinessFacade companyFacade(PartyRepository<Company> companyRepository,
                                  PartyRepository<OrganizationUnit> branchRepository,
                                  PartyRelationShipRepository<CompanyBranch> branchRelationshipRepository,
-                                 PartyRelationShipRepository<WorkstationOwnership> workstationOwnershipPartyRelationShipRepository,
-                                 PartyRepository<Person> employeeRepository,
-                                 PartyRelationShipRepository<Employment> employmentRelationShipRepository){
+                                 PartyRelationShipRepository<WorkstationOwnership> workstationOwnershipPartyRelationShipRepository){
         return new BusinessFacade(companyRepository,
                 branchRepository,
                 branchRelationshipRepository,
-                workstationOwnershipPartyRelationShipRepository,
-                employeeRepository,
-                employmentRelationShipRepository
+                workstationOwnershipPartyRelationShipRepository
                 );
     }
 
@@ -55,9 +51,4 @@ class BusinessConfiguration {
         return new WorkstationRelationshipInMemoryRepository();
     }
 
-    @Bean
-    @Profile("InMemoryRepository")
-    PartyRelationShipRepository<Employment> employmentRelationShipRepository(){
-        return new EmploymentRelationshipInMemoryRepository();
-    }
 }

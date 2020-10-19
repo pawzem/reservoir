@@ -1,10 +1,16 @@
 package com.pz.reservoir.client;
 
+import com.pz.reservoir.buisness.dto.Branch;
+import com.pz.reservoir.buisness.dto.Employee;
+import com.pz.reservoir.buisness.dto.Firm;
 import com.pz.reservoir.client.dto.*;
+import com.pz.reservoir.party.PartyId;
 import com.pz.reservoir.party.PartyIdFactory;
+import com.pz.reservoir.relationship.RelationshipIdentifier;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -14,7 +20,9 @@ class ClientFacadeTest {
 
     private final ClientFacade clientFacade = new ClientFacade(new ClientInMemoryRepository(),
             new CarInMemoryRepository(),
-            new VehicleOwnershipInMemoryRepository());
+            new VehicleOwnershipInMemoryRepository(),
+            new ClientInMemoryRepository(),
+            new EmploymentRelationshipInMemoryRepository());
 
 
     @Test
@@ -82,5 +90,23 @@ class ClientFacadeTest {
         );
 
     }
+
+    @Test
+    void addEmployee() {
+        //given
+//       add business facade to visualize flow
+        Employee employeeDto = new Employee(UUID.randomUUID().toString(), "Adam", "Nowak");
+
+        //when
+        RelationshipIdentifier employmentId = clientFacade.addEmployee(employeeDto);
+
+        //then
+        assertAll(
+                () -> assertNotNull(employmentId),
+                () -> assertNotNull(clientFacade.getEmployment(employmentId)),
+                () -> assertNotNull(clientFacade.getEmployee(clientFacade.getEmployment(employmentId).getClientPartyRole().getParty()))
+        );
+    }
+
 
 }

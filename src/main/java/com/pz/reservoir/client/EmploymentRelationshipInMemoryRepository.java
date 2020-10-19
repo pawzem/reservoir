@@ -1,4 +1,4 @@
-package com.pz.reservoir.buisness;
+package com.pz.reservoir.client;
 
 import com.pz.reservoir.relationship.PartyRelationShipRepository;
 import com.pz.reservoir.relationship.RelationshipIdentifier;
