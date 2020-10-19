@@ -5,6 +5,7 @@ import com.pz.reservoir.party.OrganizationUnit;
 import com.pz.reservoir.party.PartyRepository;
 import com.pz.reservoir.relationship.PartyRelationShipRepository;
 import com.pz.reservoir.relationship.relationships.CompanyBranch;
+import com.pz.reservoir.relationship.relationships.WorkstationOwnership;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -15,8 +16,12 @@ class BusinessConfiguration {
     @Bean
     BusinessFacade companyFacade(PartyRepository<Company> companyRepository,
                                  PartyRepository<OrganizationUnit> branchRepository,
-                                 PartyRelationShipRepository<CompanyBranch> branchRelationshipRepository){
-        return new BusinessFacade(companyRepository, branchRepository, branchRelationshipRepository);
+                                 PartyRelationShipRepository<CompanyBranch> branchRelationshipRepository,
+                                 PartyRelationShipRepository<WorkstationOwnership> workstationOwnershipPartyRelationShipRepository){
+        return new BusinessFacade(companyRepository,
+                branchRepository,
+                branchRelationshipRepository,
+                workstationOwnershipPartyRelationShipRepository);
     }
 
     @Bean
@@ -35,5 +40,11 @@ class BusinessConfiguration {
     @Profile("InMemoryRepository")
     PartyRelationShipRepository<CompanyBranch> branchRelationshipRepository(){
         return new BranchRelationshipInMemoryRepository();
+    }
+
+    @Bean
+    @Profile("InMemoryRepository")
+    PartyRelationShipRepository<WorkstationOwnership> workstationRelationshipRepository(){
+        return new WorkstationRelationshipInMemoryRepository();
     }
 }

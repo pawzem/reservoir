@@ -1,8 +1,6 @@
 package com.pz.reservoir.relationship;
 
-import com.pz.reservoir.party.Company;
 import com.pz.reservoir.party.PartyId;
-import com.pz.reservoir.party.Person;
 import com.pz.reservoir.relationship.relationships.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -23,5 +21,13 @@ public class RelationshipFactory {
         var owner = new BranchOwner(companyId, Set.of());
         var branch = new BranchUnit(branchId, Set.of());
         return new CompanyBranch(branch, owner, id);
+    }
+
+    public static WorkstationOwnership createWorkstationRelationship(PartyId motherUnitId, PartyId workstationId) {
+        var id = RelationshipIdentifier.generate();
+        var workstation = new Workstation(workstationId, Set.of());
+        var branch = new UnitWithWorkstations(motherUnitId, Set.of());
+        //todo add role repository and use same role if does not exists
+        return new WorkstationOwnership(workstation, branch, id);
     }
 }

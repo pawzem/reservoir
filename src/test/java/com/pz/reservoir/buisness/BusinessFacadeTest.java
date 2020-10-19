@@ -2,6 +2,7 @@ package com.pz.reservoir.buisness;
 
 import com.pz.reservoir.buisness.dto.Branch;
 import com.pz.reservoir.buisness.dto.Firm;
+import com.pz.reservoir.buisness.dto.Workstation;
 import com.pz.reservoir.party.PartyId;
 import com.pz.reservoir.relationship.RelationshipIdentifier;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +19,8 @@ class BusinessFacadeTest {
     void setUp() {
         businessFacade = new BusinessFacade(new CompanyInMemoryRepository(),
                 new BranchInMemoryRepository(),
-                new BranchRelationshipInMemoryRepository()
+                new BranchRelationshipInMemoryRepository(),
+                new WorkstationRelationshipInMemoryRepository()
                 );
     }
 
@@ -57,12 +59,32 @@ class BusinessFacadeTest {
     }
 
     @Test
+    void addWorkstations() {
+        //given
+        var firm = new Firm("EvilCorp", "00000000", "test@test", "www.tst.pl");
+        PartyId companyId = businessFacade.addCompany(firm);
+        var branchDto = new Branch(companyId.getId(), "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
+        RelationshipIdentifier relationshipIdentifier = businessFacade.addBranch(branchDto);
+
+        Workstation firstWorkstationDto = new Workstation(branchDto.getOrganizationId(),"workstation1");
+
+        //when
+
+        RelationshipIdentifier firstWorkstationRelationshipIdentifier = businessFacade.addWorkstation(firstWorkstationDto);
+
+        //then
+        assertAll(
+                () -> assertNotNull(firstWorkstationRelationshipIdentifier),
+                () -> assertNotNull(businessFacade.getWorkstationRelationship(firstWorkstationRelationshipIdentifier)),
+                () -> assertNotNull(businessFacade.getWorkStation(businessFacade.getWorkstationRelationship(firstWorkstationRelationshipIdentifier).getClientPartyRole().getParty()))
+        );
+    }
+
+    @Test
     void addEmployee() {
     }
 
 
 
-    @Test
-    void addWorkstation() {
-    }
+
 }

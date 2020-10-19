@@ -2,6 +2,7 @@ package com.pz.reservoir.buisness;
 
 import com.pz.reservoir.buisness.dto.Firm;
 import com.pz.reservoir.buisness.dto.Branch;
+import com.pz.reservoir.buisness.dto.Workstation;
 import com.pz.reservoir.party.*;
 import com.pz.reservoir.party.address.TelecomAddress;
 import com.pz.reservoir.party.address.WebPageAddress;
@@ -9,7 +10,7 @@ import com.pz.reservoir.relationship.PartyRelationShipRepository;
 import com.pz.reservoir.relationship.RelationshipFactory;
 import com.pz.reservoir.relationship.RelationshipIdentifier;
 import com.pz.reservoir.relationship.relationships.CompanyBranch;
-import com.pz.reservoir.relationship.relationships.VehicleOwnership;
+import com.pz.reservoir.relationship.relationships.WorkstationOwnership;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -19,8 +20,10 @@ import java.util.Set;
 public class BusinessFacade {
 
     private final PartyRepository<Company> partyRepository;
-    private final PartyRepository<OrganizationUnit> branchRepository;
+    private final PartyRepository<OrganizationUnit> organizationUnitRepository;
     private final PartyRelationShipRepository<CompanyBranch> branchRelationshipRepository;
+    private final PartyRelationShipRepository<WorkstationOwnership> workstationOwnershipPartyRelationShipRepository;
+    //TODO each type in different package with shared kernel?
 
     public PartyId addCompany(Firm firmDto){
         var telecomAddress = new TelecomAddress(firmDto.getPhoneNumber());
@@ -39,7 +42,7 @@ public class BusinessFacade {
     }
 
     public OrganizationUnit geBranch(PartyId branchId){
-        return branchRepository.find(branchId);
+        return organizationUnitRepository.find(branchId);
     }
 
     public CompanyBranch getBranchRelationship(RelationshipIdentifier branchRelationshipId){
@@ -63,12 +66,27 @@ public class BusinessFacade {
 
         var  branch = PartyFactory.createUnit(branchDto.getDisplayName(), addresses, List.of(), Set.of());
 
-        return branchRepository.save(branch);
+        return organizationUnitRepository.save(branch);
     }
 
-    public PartyId addWorkstation(){
+    public RelationshipIdentifier addWorkstation(Workstation workstationDto){
         //TODO
-        return null;
+        PartyId workstationId = createWorkstation(workstationDto);
+        WorkstationOwnership workstationRelationship = RelationshipFactory.createWorkstationRelationship(PartyIdFactory.of(workstationDto.getOrganizationUnitId()), workstationId);
+        return workstationOwnershipPartyRelationShipRepository.save(workstationRelationship);
+    }
+
+    private PartyId createWorkstation(Workstation workstationDto) {
+        var  workstation = PartyFactory.createUnit(workstationDto.getDisplayName(), List.of(), List.of(), Set.of());
+        return organizationUnitRepository.save(workstation);
+    }
+
+    public OrganizationUnit getWorkStation(PartyId workstationId){
+        return organizationUnitRepository.find(workstationId);
+    }
+
+    public WorkstationOwnership getWorkstationRelationship(RelationshipIdentifier workstationRelationshipId){
+        return workstationOwnershipPartyRelationShipRepository.find(workstationRelationshipId);
     }
 
     public PartyId addEmployee(){
