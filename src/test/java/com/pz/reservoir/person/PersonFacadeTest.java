@@ -1,10 +1,7 @@
-package com.pz.reservoir.client;
+package com.pz.reservoir.person;
 
-import com.pz.reservoir.buisness.dto.Branch;
 import com.pz.reservoir.buisness.dto.Employee;
-import com.pz.reservoir.buisness.dto.Firm;
-import com.pz.reservoir.client.dto.*;
-import com.pz.reservoir.party.PartyId;
+import com.pz.reservoir.person.dto.*;
 import com.pz.reservoir.party.PartyIdFactory;
 import com.pz.reservoir.relationship.RelationshipIdentifier;
 import org.junit.jupiter.api.Test;
@@ -16,12 +13,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
-class ClientFacadeTest {
+class PersonFacadeTest {
 
-    private final ClientFacade clientFacade = new ClientFacade(new ClientInMemoryRepository(),
+    private final PersonFacade personFacade = new PersonFacade(new PersonInMemoryRepository(),
             new CarInMemoryRepository(),
             new VehicleOwnershipInMemoryRepository(),
-            new ClientInMemoryRepository(),
+            new PersonInMemoryRepository(),
             new EmploymentRelationshipInMemoryRepository());
 
 
@@ -31,12 +28,12 @@ class ClientFacadeTest {
         var clientDto = new Client( "PL +48 500 000 000", "dummy@email", "paweł", "name");
 
         //when
-        var personId = clientFacade.addClient(clientDto);
+        var personId = personFacade.addClient(clientDto);
 
         //then
         assertAll(
                 () -> assertNotNull(personId),
-                () -> assertNotNull(clientFacade.getClient(personId))
+                () -> assertNotNull(personFacade.getClient(personId))
         );
 
     }
@@ -55,12 +52,12 @@ class ClientFacadeTest {
                 );
 
         //when
-        var ownershipId = clientFacade.addCar(carDto);
+        var ownershipId = personFacade.addCar(carDto);
 
         //then
         assertAll(
                 () -> assertNotNull(ownershipId),
-                () -> assertNotNull(clientFacade.getRelationship(ownershipId))
+                () -> assertNotNull(personFacade.getRelationship(ownershipId))
         );
 
     }
@@ -80,13 +77,13 @@ class ClientFacadeTest {
 
 
         //when
-        var ownershipId = clientFacade.addCar(carDto);
+        var ownershipId = personFacade.addCar(carDto);
 
         //then
         assertAll(
                 () -> assertNotNull(ownershipId),
-                () -> assertNotNull(clientFacade.getRelationship(ownershipId)),
-                () -> assertNotNull(clientFacade.getCar(clientFacade.getRelationship(ownershipId).getClientPartyRole().getParty()))
+                () -> assertNotNull(personFacade.getRelationship(ownershipId)),
+                () -> assertNotNull(personFacade.getCar(personFacade.getRelationship(ownershipId).getClientPartyRole().getParty()))
         );
 
     }
@@ -98,13 +95,13 @@ class ClientFacadeTest {
         Employee employeeDto = new Employee(UUID.randomUUID().toString(), "Adam", "Nowak");
 
         //when
-        RelationshipIdentifier employmentId = clientFacade.addEmployee(employeeDto);
+        RelationshipIdentifier employmentId = personFacade.addEmployee(employeeDto);
 
         //then
         assertAll(
                 () -> assertNotNull(employmentId),
-                () -> assertNotNull(clientFacade.getEmployment(employmentId)),
-                () -> assertNotNull(clientFacade.getEmployee(clientFacade.getEmployment(employmentId).getClientPartyRole().getParty()))
+                () -> assertNotNull(personFacade.getEmployment(employmentId)),
+                () -> assertNotNull(personFacade.getEmployee(personFacade.getEmployment(employmentId).getClientPartyRole().getParty()))
         );
     }
 

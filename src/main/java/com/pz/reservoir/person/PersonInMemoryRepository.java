@@ -1,4 +1,4 @@
-package com.pz.reservoir.client;
+package com.pz.reservoir.person;
 
 import com.pz.reservoir.party.PartyId;
 import com.pz.reservoir.party.PartyRepository;
@@ -7,7 +7,7 @@ import com.pz.reservoir.party.Person;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClientInMemoryRepository implements PartyRepository<Person> {
+public class PersonInMemoryRepository implements PartyRepository<Person> {
 
     private Map<PartyId, Person> personMap = new HashMap<>();
 

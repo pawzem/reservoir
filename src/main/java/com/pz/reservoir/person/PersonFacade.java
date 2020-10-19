@@ -1,8 +1,8 @@
-package com.pz.reservoir.client;
+package com.pz.reservoir.person;
 
 import com.pz.reservoir.buisness.dto.Employee;
-import com.pz.reservoir.client.dto.Client;
-import com.pz.reservoir.client.dto.ClientPreferences;
+import com.pz.reservoir.person.dto.Client;
+import com.pz.reservoir.person.dto.ClientPreferences;
 import com.pz.reservoir.party.*;
 import com.pz.reservoir.party.address.EmailAddress;
 import com.pz.reservoir.party.address.TelecomAddress;
@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @AllArgsConstructor
-public class ClientFacade {
+public class PersonFacade {
 
     private final PartyRepository<Person> partyRepository;
     private final PartyRepository<Car> carRepository;

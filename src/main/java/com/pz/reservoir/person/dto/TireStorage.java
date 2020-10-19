@@ -1,4 +1,4 @@
-package com.pz.reservoir.client.dto;
+package com.pz.reservoir.person.dto;
 
 public enum TireStorage {
     WAREHOUSE,

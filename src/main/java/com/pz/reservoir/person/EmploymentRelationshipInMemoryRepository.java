@@ -1,8 +1,7 @@
-package com.pz.reservoir.client;
+package com.pz.reservoir.person;
 
 import com.pz.reservoir.relationship.PartyRelationShipRepository;
 import com.pz.reservoir.relationship.RelationshipIdentifier;
-import com.pz.reservoir.relationship.relationships.CompanyBranch;
 import com.pz.reservoir.relationship.relationships.Employment;
 
 import java.util.HashMap;

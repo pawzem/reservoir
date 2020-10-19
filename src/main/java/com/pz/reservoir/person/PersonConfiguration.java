@@ -1,4 +1,4 @@
-package com.pz.reservoir.client;
+package com.pz.reservoir.person;
 
 import com.pz.reservoir.party.Car;
 import com.pz.reservoir.party.PartyRepository;
@@ -11,15 +11,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-class ClientConfiguration {
+class PersonConfiguration {
 
     @Bean
-    ClientFacade clientFacade(PartyRepository<Person> partyRepository,
+    PersonFacade clientFacade(PartyRepository<Person> partyRepository,
                               PartyRepository<Car> carPartyRepository,
                               PartyRelationShipRepository<VehicleOwnership> vehicleOwnershipPartyRelationShipRepository,
                               PartyRepository<Person> employeeRepository,
                               PartyRelationShipRepository<Employment> employmentRelationShipRepository){
-        return new ClientFacade(partyRepository,
+        return new PersonFacade(partyRepository,
                 carPartyRepository,
                 vehicleOwnershipPartyRelationShipRepository,
                 employeeRepository,
@@ -29,7 +29,7 @@ class ClientConfiguration {
     @Bean
     @Profile("InMemoryRepository")
     PartyRepository<Person> personRepository(){
-        return new ClientInMemoryRepository();
+        return new PersonInMemoryRepository();
     }
 
     @Bean

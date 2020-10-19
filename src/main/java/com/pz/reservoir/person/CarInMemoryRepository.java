@@ -1,4 +1,4 @@
-package com.pz.reservoir.client;
+package com.pz.reservoir.person;
 
 import com.pz.reservoir.party.Car;
 import com.pz.reservoir.party.PartyId;
