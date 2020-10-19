@@ -30,4 +30,13 @@ public class RelationshipFactory {
         //todo add role repository and use same role if does not exists
         return new WorkstationOwnership(workstation, branch, id);
     }
+
+    public static Employment createEmployment(PartyId employeeId, PartyId employerId) {
+        var id = RelationshipIdentifier.generate();
+        var employee = new Employee(employeeId, Set.of());
+        var employer = new Employer(employerId, Set.of());
+        //todo add role repository and use same role if does not exists
+        return new Employment(employee, employer, id);
+
+    }
 }

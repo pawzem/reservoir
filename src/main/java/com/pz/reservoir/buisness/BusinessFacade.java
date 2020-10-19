@@ -1,5 +1,6 @@
 package com.pz.reservoir.buisness;
 
+import com.pz.reservoir.buisness.dto.Employee;
 import com.pz.reservoir.buisness.dto.Firm;
 import com.pz.reservoir.buisness.dto.Branch;
 import com.pz.reservoir.buisness.dto.Workstation;
@@ -10,6 +11,7 @@ import com.pz.reservoir.relationship.PartyRelationShipRepository;
 import com.pz.reservoir.relationship.RelationshipFactory;
 import com.pz.reservoir.relationship.RelationshipIdentifier;
 import com.pz.reservoir.relationship.relationships.CompanyBranch;
+import com.pz.reservoir.relationship.relationships.Employment;
 import com.pz.reservoir.relationship.relationships.WorkstationOwnership;
 import lombok.AllArgsConstructor;
 
@@ -19,10 +21,12 @@ import java.util.Set;
 @AllArgsConstructor
 public class BusinessFacade {
 
-    private final PartyRepository<Company> partyRepository;
+    private final PartyRepository<Company> companyPartyRepository;
     private final PartyRepository<OrganizationUnit> organizationUnitRepository;
     private final PartyRelationShipRepository<CompanyBranch> branchRelationshipRepository;
     private final PartyRelationShipRepository<WorkstationOwnership> workstationOwnershipPartyRelationShipRepository;
+    private final PartyRepository<Person> employeeRepository;
+    private final PartyRelationShipRepository<Employment> employmentRelationShipRepository;
     //TODO each type in different package with shared kernel? NOw commits affect to many packages
 
     public PartyId addCompany(Firm firmDto){
@@ -34,11 +38,11 @@ public class BusinessFacade {
 
         var  company = PartyFactory.createCompany(firmDto.getDisplayName(), addresses, List.of(), Set.of());
 
-        return partyRepository.save(company);
+        return companyPartyRepository.save(company);
     }
 
     public Company getCompany(PartyId id){
-        return partyRepository.find(id);
+        return companyPartyRepository.find(id);
     }
 
     public OrganizationUnit geBranch(PartyId branchId){
@@ -89,8 +93,22 @@ public class BusinessFacade {
         return workstationOwnershipPartyRelationShipRepository.find(workstationRelationshipId);
     }
 
-    public PartyId addEmployee(){
-        //TODO
-        return null;
+    public RelationshipIdentifier addEmployee(Employee employeeDto){
+        PartyId employee = createEmployee(employeeDto);
+        Employment employment = RelationshipFactory.createEmployment(employee, PartyIdFactory.of(employeeDto.getOrganizationId()));
+        return employmentRelationShipRepository.save(employment);
+    }
+
+    private PartyId createEmployee(Employee employee) {
+        var person = PartyFactory.createPerson(List.of(), List.of(), Set.of(), employee.getFirstName(), employee.getLastName());
+        return employeeRepository.save(person);
+    }
+
+    public Employment getEmployment(RelationshipIdentifier relationshipIdentifier){
+        return employmentRelationShipRepository.find(relationshipIdentifier);
+    }
+
+    public Person getEmployee(PartyId partyId){
+        return employeeRepository.find(partyId);
     }
 }

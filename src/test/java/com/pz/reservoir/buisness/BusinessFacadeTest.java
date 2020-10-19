@@ -1,8 +1,10 @@
 package com.pz.reservoir.buisness;
 
 import com.pz.reservoir.buisness.dto.Branch;
+import com.pz.reservoir.buisness.dto.Employee;
 import com.pz.reservoir.buisness.dto.Firm;
 import com.pz.reservoir.buisness.dto.Workstation;
+import com.pz.reservoir.client.ClientInMemoryRepository;
 import com.pz.reservoir.party.PartyId;
 import com.pz.reservoir.relationship.RelationshipIdentifier;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +22,9 @@ class BusinessFacadeTest {
         businessFacade = new BusinessFacade(new CompanyInMemoryRepository(),
                 new BranchInMemoryRepository(),
                 new BranchRelationshipInMemoryRepository(),
-                new WorkstationRelationshipInMemoryRepository()
+                new WorkstationRelationshipInMemoryRepository(),
+                new ClientInMemoryRepository(),
+                new EmploymentRelationshipInMemoryRepository()
                 );
     }
 
@@ -82,6 +86,22 @@ class BusinessFacadeTest {
 
     @Test
     void addEmployee() {
+        //given
+        var firm = new Firm("EvilCorp", "00000000", "test@test", "www.tst.pl");
+        PartyId companyId = businessFacade.addCompany(firm);
+        var branchDto = new Branch(companyId.getId(), "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
+        RelationshipIdentifier relationshipIdentifier = businessFacade.addBranch(branchDto);
+        Employee employeeDto = new Employee(branchDto.getOrganizationId(), "Adam", "Nowak");
+
+        //when
+        RelationshipIdentifier employmentId = businessFacade.addEmployee(employeeDto);
+
+        //then
+        assertAll(
+                () -> assertNotNull(employmentId),
+                () -> assertNotNull(businessFacade.getEmployment(employmentId)),
+                () -> assertNotNull(businessFacade.getEmployee(businessFacade.getEmployment(employmentId).getClientPartyRole().getParty()))
+        );
     }
 
 
