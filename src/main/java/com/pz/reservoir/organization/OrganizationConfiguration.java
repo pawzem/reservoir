@@ -1,26 +1,24 @@
-package com.pz.reservoir.buisness;
+package com.pz.reservoir.organization;
 
 import com.pz.reservoir.party.Company;
 import com.pz.reservoir.party.OrganizationUnit;
 import com.pz.reservoir.party.PartyRepository;
-import com.pz.reservoir.party.Person;
 import com.pz.reservoir.relationship.PartyRelationShipRepository;
 import com.pz.reservoir.relationship.relationships.CompanyBranch;
-import com.pz.reservoir.relationship.relationships.Employment;
 import com.pz.reservoir.relationship.relationships.WorkstationOwnership;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-class BusinessConfiguration {
+class OrganizationConfiguration {
 
     @Bean
-    BusinessFacade companyFacade(PartyRepository<Company> companyRepository,
-                                 PartyRepository<OrganizationUnit> branchRepository,
-                                 PartyRelationShipRepository<CompanyBranch> branchRelationshipRepository,
-                                 PartyRelationShipRepository<WorkstationOwnership> workstationOwnershipPartyRelationShipRepository){
-        return new BusinessFacade(companyRepository,
+    OrganizationFacade companyFacade(PartyRepository<Company> companyRepository,
+                                     PartyRepository<OrganizationUnit> branchRepository,
+                                     PartyRelationShipRepository<CompanyBranch> branchRelationshipRepository,
+                                     PartyRelationShipRepository<WorkstationOwnership> workstationOwnershipPartyRelationShipRepository){
+        return new OrganizationFacade(companyRepository,
                 branchRepository,
                 branchRelationshipRepository,
                 workstationOwnershipPartyRelationShipRepository

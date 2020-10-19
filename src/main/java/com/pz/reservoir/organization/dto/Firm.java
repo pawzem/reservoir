@@ -1,12 +1,12 @@
-package com.pz.reservoir.buisness.dto;
+package com.pz.reservoir.organization.dto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class Branch {
-    private final String organizationId;
+public class Firm {
     private final String displayName;
     private final String phoneNumber;
     private final String email;

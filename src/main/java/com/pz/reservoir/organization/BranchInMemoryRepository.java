@@ -1,4 +1,4 @@
-package com.pz.reservoir.buisness;
+package com.pz.reservoir.organization;
 
 import com.pz.reservoir.party.OrganizationUnit;
 import com.pz.reservoir.party.PartyId;

@@ -1,6 +1,6 @@
 package com.pz.reservoir.person;
 
-import com.pz.reservoir.buisness.dto.Employee;
+import com.pz.reservoir.organization.dto.Employee;
 import com.pz.reservoir.person.dto.Client;
 import com.pz.reservoir.person.dto.ClientPreferences;
 import com.pz.reservoir.party.*;

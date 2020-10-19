@@ -1,8 +1,8 @@
-package com.pz.reservoir.buisness;
+package com.pz.reservoir.organization;
 
-import com.pz.reservoir.buisness.dto.Branch;
-import com.pz.reservoir.buisness.dto.Firm;
-import com.pz.reservoir.buisness.dto.Workstation;
+import com.pz.reservoir.organization.dto.Branch;
+import com.pz.reservoir.organization.dto.Firm;
+import com.pz.reservoir.organization.dto.Workstation;
 import com.pz.reservoir.party.PartyId;
 import com.pz.reservoir.relationship.RelationshipIdentifier;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,13 +11,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class BusinessFacadeTest {
+class OrganizationFacadeTest {
 
-    private BusinessFacade businessFacade;
+    private OrganizationFacade organizationFacade;
 
     @BeforeEach
     void setUp() {
-        businessFacade = new BusinessFacade(new CompanyInMemoryRepository(),
+        organizationFacade = new OrganizationFacade(new CompanyInMemoryRepository(),
                 new BranchInMemoryRepository(),
                 new BranchRelationshipInMemoryRepository(),
                 new WorkstationRelationshipInMemoryRepository()
@@ -30,12 +30,12 @@ class BusinessFacadeTest {
         var firm = new Firm("EvilCorp", "00000000", "test@test", "www.tst.pl");
 
         //when
-        PartyId partyId = businessFacade.addCompany(firm);
+        PartyId partyId = organizationFacade.addCompany(firm);
 
         //then
         assertAll(
                 () -> assertNotNull(partyId),
-                () -> assertNotNull(businessFacade.getCompany(partyId))
+                () -> assertNotNull(organizationFacade.getCompany(partyId))
         );
 
     }
@@ -44,17 +44,17 @@ class BusinessFacadeTest {
     void addUnit() {
         //given
         var firm = new Firm("EvilCorp", "00000000", "test@test", "www.tst.pl");
-        PartyId companyId = businessFacade.addCompany(firm);
+        PartyId companyId = organizationFacade.addCompany(firm);
         var branchDto = new Branch(companyId.getId(), "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
 
         //when
-        RelationshipIdentifier relationshipIdentifier = businessFacade.addBranch(branchDto);
+        RelationshipIdentifier relationshipIdentifier = organizationFacade.addBranch(branchDto);
 
         //then
         assertAll(
                 () -> assertNotNull(relationshipIdentifier),
-                () -> assertNotNull(businessFacade.getBranchRelationship(relationshipIdentifier)),
-                () -> assertNotNull(businessFacade.geBranch(businessFacade.getBranchRelationship(relationshipIdentifier).getClientPartyRole().getParty()))
+                () -> assertNotNull(organizationFacade.getBranchRelationship(relationshipIdentifier)),
+                () -> assertNotNull(organizationFacade.geBranch(organizationFacade.getBranchRelationship(relationshipIdentifier).getClientPartyRole().getParty()))
         );
     }
 
@@ -62,21 +62,21 @@ class BusinessFacadeTest {
     void addWorkstations() {
         //given
         var firm = new Firm("EvilCorp", "00000000", "test@test", "www.tst.pl");
-        PartyId companyId = businessFacade.addCompany(firm);
+        PartyId companyId = organizationFacade.addCompany(firm);
         var branchDto = new Branch(companyId.getId(), "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
-        RelationshipIdentifier relationshipIdentifier = businessFacade.addBranch(branchDto);
+        RelationshipIdentifier relationshipIdentifier = organizationFacade.addBranch(branchDto);
 
         Workstation firstWorkstationDto = new Workstation(branchDto.getOrganizationId(),"workstation1");
 
         //when
 
-        RelationshipIdentifier firstWorkstationRelationshipIdentifier = businessFacade.addWorkstation(firstWorkstationDto);
+        RelationshipIdentifier firstWorkstationRelationshipIdentifier = organizationFacade.addWorkstation(firstWorkstationDto);
 
         //then
         assertAll(
                 () -> assertNotNull(firstWorkstationRelationshipIdentifier),
-                () -> assertNotNull(businessFacade.getWorkstationRelationship(firstWorkstationRelationshipIdentifier)),
-                () -> assertNotNull(businessFacade.getWorkStation(businessFacade.getWorkstationRelationship(firstWorkstationRelationshipIdentifier).getClientPartyRole().getParty()))
+                () -> assertNotNull(organizationFacade.getWorkstationRelationship(firstWorkstationRelationshipIdentifier)),
+                () -> assertNotNull(organizationFacade.getWorkStation(organizationFacade.getWorkstationRelationship(firstWorkstationRelationshipIdentifier).getClientPartyRole().getParty()))
         );
     }
 

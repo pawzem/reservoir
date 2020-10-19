@@ -1,4 +1,4 @@
-package com.pz.reservoir.buisness.dto;
+package com.pz.reservoir.organization.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

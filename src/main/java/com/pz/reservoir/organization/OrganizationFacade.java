@@ -1,9 +1,8 @@
-package com.pz.reservoir.buisness;
+package com.pz.reservoir.organization;
 
-import com.pz.reservoir.buisness.dto.Employee;
-import com.pz.reservoir.buisness.dto.Firm;
-import com.pz.reservoir.buisness.dto.Branch;
-import com.pz.reservoir.buisness.dto.Workstation;
+import com.pz.reservoir.organization.dto.Firm;
+import com.pz.reservoir.organization.dto.Branch;
+import com.pz.reservoir.organization.dto.Workstation;
 import com.pz.reservoir.party.*;
 import com.pz.reservoir.party.address.TelecomAddress;
 import com.pz.reservoir.party.address.WebPageAddress;
@@ -11,7 +10,6 @@ import com.pz.reservoir.relationship.PartyRelationShipRepository;
 import com.pz.reservoir.relationship.RelationshipFactory;
 import com.pz.reservoir.relationship.RelationshipIdentifier;
 import com.pz.reservoir.relationship.relationships.CompanyBranch;
-import com.pz.reservoir.relationship.relationships.Employment;
 import com.pz.reservoir.relationship.relationships.WorkstationOwnership;
 import lombok.AllArgsConstructor;
 
@@ -19,7 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
-public class BusinessFacade {
+public class OrganizationFacade {
 
     private final PartyRepository<Company> companyPartyRepository;
     private final PartyRepository<OrganizationUnit> organizationUnitRepository;
