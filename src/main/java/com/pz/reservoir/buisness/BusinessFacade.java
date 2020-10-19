@@ -23,7 +23,7 @@ public class BusinessFacade {
     private final PartyRepository<OrganizationUnit> organizationUnitRepository;
     private final PartyRelationShipRepository<CompanyBranch> branchRelationshipRepository;
     private final PartyRelationShipRepository<WorkstationOwnership> workstationOwnershipPartyRelationShipRepository;
-    //TODO each type in different package with shared kernel?
+    //TODO each type in different package with shared kernel? NOw commits affect to many packages
 
     public PartyId addCompany(Firm firmDto){
         var telecomAddress = new TelecomAddress(firmDto.getPhoneNumber());
