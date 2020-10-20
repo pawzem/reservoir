@@ -17,7 +17,8 @@ public class ReservationFacade {
       var schedule = scheduleRepository.findByDate(reservation.getStartTime().toLocalDate())
               .orElseGet(() -> createNewSchedule(reservation));
 
-      schedule.reserve(reservation.getClient(), reservation.getStartTime(), reservation.getDuration());
+      var reservationPolicy = new ReservationPolicy();
+      schedule.reserve(reservationPolicy, reservation.getClient(), reservation.getStartTime(), reservation.getDuration());
 
 
       return scheduleRepository.save(schedule);

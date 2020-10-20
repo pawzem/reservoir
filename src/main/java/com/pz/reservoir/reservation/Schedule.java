@@ -21,9 +21,9 @@ class Schedule {
     private final Set<Reservation> reservations;
 
 
-    void reserve(PartyId client, LocalDateTime startTime, Duration duration) {
+    void reserve(ReservationPolicy reservationPolicy, PartyId client, LocalDateTime startTime, Duration duration) {
 
-        if(isReserved(startTime, duration)){//TODO reservation policy?
+        if(reservationPolicy.canReserve(this, client, startTime, duration)){//TODO reservation policy?
             reservations.add(new Reservation(ReservationId.of(), startTime, startTime.plus(duration), client));
         } else {
             throw new DataUnavailableException(client, startTime, duration);
