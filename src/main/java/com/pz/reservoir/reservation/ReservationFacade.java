@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @AllArgsConstructor
 public class ReservationFacade {
@@ -30,7 +31,13 @@ public class ReservationFacade {
         return ScheduleId.of();
     }
 
-    public boolean isAvailable(LocalDateTime now, Duration serviceDuration) {
-        return true;
+    public ScheduleId cancel(LocalDateTime startTime, LocalDateTime endTime){
+        return ScheduleId.of();
+    }
+
+    public boolean isAvailable(LocalDateTime dateTime, Duration serviceDuration) {
+        Optional<Schedule> schedule = scheduleRepository.findByDate(dateTime.toLocalDate());
+        return schedule.map(s -> s.isAvailable(dateTime, serviceDuration))
+                .orElse(Boolean.TRUE);
     }
 }
