@@ -74,6 +74,17 @@ class ReservationFacadeTest {
 
     @Test
     void reservationShouldBeRejectedForReservationOverlappingByEndDate() {
+        //given
+        var now = LocalDateTime.now();
+        Duration serviceDuration = Duration.ofMinutes(30);
+        var initialRequest = new ReservationRequest(now, serviceDuration, PartyIdFactory.generate(), PartyIdFactory.generate());
+        reservationFacade.reserve(initialRequest);
+
+        var newRequest = new ReservationRequest(now.minus(5, ChronoUnit.MINUTES), Duration.ofMinutes(10), PartyIdFactory.generate(), PartyIdFactory.generate());
+
+        //when
+        //then
+        assertThrows(DateUnavailableException.class, () -> reservationFacade.reserve(newRequest));
 
     }
 
