@@ -26,7 +26,7 @@ class Schedule {
         if(reservationPolicy.canReserve(this, client, startTime, duration)){//TODO reservation policy?
             reservations.add(new Reservation(ReservationId.of(), startTime, startTime.plus(duration), client));
         } else {
-            throw new DataUnavailableException(client, startTime, duration);
+            throw new DateUnavailableException(client, startTime, duration);
         }
 
     }
