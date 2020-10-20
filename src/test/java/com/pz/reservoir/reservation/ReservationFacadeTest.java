@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -90,22 +89,33 @@ class ReservationFacadeTest {
 
     @Test
     void reservationShouldBeRejectedForReservationOverlappingByStartDate() {
+        //given
+        var now = LocalDateTime.now();
+        Duration serviceDuration = Duration.ofMinutes(30);
+        var initialRequest = new ReservationRequest(now, serviceDuration, PartyIdFactory.generate(), PartyIdFactory.generate());
+        reservationFacade.reserve(initialRequest);
+
+        var newRequest = new ReservationRequest(now.plus(5, ChronoUnit.MINUTES), Duration.ofMinutes(30), PartyIdFactory.generate(), PartyIdFactory.generate());
+
+        //when
+        //then
+        assertThrows(DateUnavailableException.class, () -> reservationFacade.reserve(newRequest));
 
     }
 
     @Test
     void reservationShouldBeRejectedIfClientAlreadyScheduledSlotsExceeded() {
-
+        //TODO
     }
 
     @Test
     void reservationShouldBeRejectedIfClientIsBlocked() {
-
+        //TODO
     }
 
     @Test
     void reservationShouldBeCancelled() {
-
+        //TODO
     }
 
 }
