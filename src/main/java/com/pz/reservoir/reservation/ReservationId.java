@@ -1,10 +1,12 @@
 package com.pz.reservoir.reservation;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.UUID;
 
 @EqualsAndHashCode
+@ToString
 class ReservationId {
     private final UUID id;
 

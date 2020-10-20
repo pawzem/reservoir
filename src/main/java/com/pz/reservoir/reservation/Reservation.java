@@ -15,6 +15,10 @@ class Reservation {
     private final LocalDateTime endTime;
     private final PartyId client;
 
+    boolean isReservationOwner(PartyId requester){
+        return client.equals(requester);
+    }
+
     boolean doesCollide(LocalDateTime askedStartTime, LocalDateTime askedEndTime){
         return !(endTimeAfterStartTime(askedStartTime, askedEndTime) && (endBeforeReservationStarts(askedEndTime) || startsAfterReservationEnds(askedStartTime)));
 

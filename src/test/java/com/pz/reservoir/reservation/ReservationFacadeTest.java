@@ -1,5 +1,6 @@
 package com.pz.reservoir.reservation;
 
+import com.pz.reservoir.party.PartyId;
 import com.pz.reservoir.party.PartyIdFactory;
 import com.pz.reservoir.reservation.dto.ReservationRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -110,11 +111,13 @@ class ReservationFacadeTest {
         //given
         var now = LocalDateTime.now();
         Duration serviceDuration = Duration.ofMinutes(30);
-        var initialRequest = new ReservationRequest(now, serviceDuration, PartyIdFactory.generate(), PartyIdFactory.generate());
+        PartyId client = PartyIdFactory.generate();
+        var initialRequest = new ReservationRequest(now, serviceDuration, PartyIdFactory.generate(), client);
         ReservationId reservationId = reservationFacade.reserve(initialRequest);
+        var requester = client;
 
         //when
-        reservationFacade.cancel(reservationId);
+        reservationFacade.cancel(requester, reservationId);
 
         //then
         assertAll(

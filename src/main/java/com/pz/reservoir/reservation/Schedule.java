@@ -17,6 +17,7 @@ class Schedule {
     private final ScheduleId id;
     @Getter(AccessLevel.PACKAGE)
     private final LocalDate date;
+    private final PartyId workstationId;
 
     private final Set<Reservation> reservations;
 
@@ -34,8 +35,11 @@ class Schedule {
 
     }
 
-    ReservationId cancel(ReservationId reservationId){
-        reservations.removeIf(reservation -> reservation.getId().equals(reservationId));
+    ReservationId cancel(CancelPolicy cancelPolicy,PartyId requesterId,  ReservationId reservationId){
+        //TODO cancel policy
+        reservations.removeIf(reservation -> {
+            return  reservation.getId().equals(reservationId) && cancelPolicy.validateCancel(workstationId, requesterId, reservation);
+        });
         return reservationId;
     }
 

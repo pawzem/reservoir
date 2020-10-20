@@ -26,13 +26,14 @@ public class ReservationFacade {
     }
 
     private Schedule createNewSchedule(ReservationRequest reservation) {
-        return ScheduleFactory.createNew(reservation.getStartTime().toLocalDate());
+        return ScheduleFactory.createNew(reservation.getWorkstation(), reservation.getStartTime().toLocalDate());
     }
 
-    public ReservationId cancel(ReservationId reservationId){
+    public ReservationId cancel(PartyId requester, ReservationId reservationId){
         Optional<Schedule> schedule = scheduleRepository.findByReservation(reservationId);
         schedule.ifPresent( s -> {
-            s.cancel(reservationId);
+            var cancelPolicy = new CancelPolicy();
+            s.cancel(cancelPolicy, requester, reservationId);
             scheduleRepository.save(s);
         });
 
