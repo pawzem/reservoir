@@ -1,12 +1,15 @@
 package com.pz.reservoir.reservation;
 
 import com.pz.reservoir.party.PartyId;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
 class Reservation {
+    @Getter(AccessLevel.PACKAGE)
     private final ReservationId id;
     private final LocalDateTime startTime;
     private final LocalDateTime endTime;

@@ -8,4 +8,6 @@ public interface ScheduleRepository<S extends Schedule>  {
     S find(ScheduleId id);
 
     Optional<S> findByDate(LocalDate date);
+
+    Optional<S> findByReservation(ReservationId reservationId);
 }

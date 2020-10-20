@@ -13,30 +13,35 @@ public class ReservationFacade {
 
     private ScheduleRepository<Schedule> scheduleRepository;
 
-    public ScheduleId reserve(ReservationRequest reservation){
+    public ReservationId reserve(ReservationRequest reservation){
 
       var schedule = scheduleRepository.findByDate(reservation.getStartTime().toLocalDate())
               .orElseGet(() -> createNewSchedule(reservation));
 
       var reservationPolicy = new ReservationPolicy();
-      schedule.reserve(reservationPolicy, reservation.getClient(), reservation.getStartTime(), reservation.getDuration());
+      ReservationId reservationId = schedule.reserve(reservationPolicy, reservation.getClient(), reservation.getStartTime(), reservation.getDuration());
+      scheduleRepository.save(schedule);
 
-
-      return scheduleRepository.save(schedule);
+        return reservationId;
     }
 
     private Schedule createNewSchedule(ReservationRequest reservation) {
         return ScheduleFactory.createNew(reservation.getStartTime().toLocalDate());
     }
 
-    public ScheduleId cancel(ReservationId reservationId){
-        //TODO
-        return ScheduleId.of();
+    public ReservationId cancel(ReservationId reservationId){
+        Optional<Schedule> schedule = scheduleRepository.findByReservation(reservationId);
+        schedule.ifPresent( s -> {
+            s.cancel(reservationId);
+            scheduleRepository.save(s);
+        });
+
+        return reservationId;
     }
 
     public ScheduleId cancel(PartyId workstationId, LocalDateTime startTime, LocalDateTime endTime){
         //TODO
-        return ScheduleId.of();
+        throw new RuntimeException("Unimplemented");
     }
 
     public boolean isAvailable(LocalDateTime dateTime, Duration serviceDuration) {

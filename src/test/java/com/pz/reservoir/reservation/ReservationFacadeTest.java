@@ -3,6 +3,7 @@ package com.pz.reservoir.reservation;
 import com.pz.reservoir.party.PartyIdFactory;
 import com.pz.reservoir.reservation.dto.ReservationRequest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -29,11 +30,11 @@ class ReservationFacadeTest {
         var request = new ReservationRequest(now, serviceDuration, PartyIdFactory.generate(), PartyIdFactory.generate());
 
         //when
-        ScheduleId scheduleId = reservationFacade.reserve(request);
+        var reservationId = reservationFacade.reserve(request);
 
         //then
         assertAll(
-                () -> assertNotNull(scheduleId),
+                () -> assertNotNull(reservationId),
                 () -> assertFalse(reservationFacade.isAvailable(now, serviceDuration))
         );
 
@@ -103,6 +104,45 @@ class ReservationFacadeTest {
 
     }
 
+
+    @Test
+    void reservationShouldBeCancelled() {
+        //given
+        var now = LocalDateTime.now();
+        Duration serviceDuration = Duration.ofMinutes(30);
+        var initialRequest = new ReservationRequest(now, serviceDuration, PartyIdFactory.generate(), PartyIdFactory.generate());
+        ReservationId reservationId = reservationFacade.reserve(initialRequest);
+
+        //when
+        reservationFacade.cancel(reservationId);
+
+        //then
+        assertAll(
+                () -> assertNotNull(reservationId),
+                () -> assertTrue(reservationFacade.isAvailable(now, serviceDuration))
+        );
+    }
+
+    //implement
+    @Disabled
+    @Test
+    void reservationInTimePeriodShouldBeCancelled() {
+        //given
+        var now = LocalDateTime.now();
+        Duration serviceDuration = Duration.ofMinutes(30);
+        reservationFacade.reserve(new ReservationRequest(now, serviceDuration, PartyIdFactory.generate(), PartyIdFactory.generate()));
+        reservationFacade.reserve(new ReservationRequest(now.plus(1, ChronoUnit.HOURS), serviceDuration, PartyIdFactory.generate(), PartyIdFactory.generate()));
+
+        //when
+        reservationFacade.cancel(PartyIdFactory.generate(), now, now.plus(2, ChronoUnit.HOURS));
+
+        //then
+        assertAll(
+                () -> assertTrue(reservationFacade.isAvailable(now, Duration.ofHours(4)))
+        );
+
+    }
+
     @Test
     void reservationShouldBeRejectedIfClientAlreadyScheduledSlotsExceeded() {
         //TODO
@@ -113,9 +153,5 @@ class ReservationFacadeTest {
         //TODO
     }
 
-    @Test
-    void reservationShouldBeCancelled() {
-        //TODO
-    }
 
 }

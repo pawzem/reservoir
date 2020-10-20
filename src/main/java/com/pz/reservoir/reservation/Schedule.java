@@ -21,14 +21,22 @@ class Schedule {
     private final Set<Reservation> reservations;
 
 
-    void reserve(ReservationPolicy reservationPolicy, PartyId client, LocalDateTime startTime, Duration duration) {
+    ReservationId reserve(ReservationPolicy reservationPolicy, PartyId client, LocalDateTime startTime, Duration duration) {
 
-        if(reservationPolicy.canReserve(this, client, startTime, duration)){//TODO reservation policy?
-            reservations.add(new Reservation(ReservationId.of(), startTime, startTime.plus(duration), client));
+        if(reservationPolicy.canReserve(this, client, startTime, duration)){
+            var reservation = new Reservation(ReservationId.of(), startTime, startTime.plus(duration), client);
+            reservations.add(reservation);
+
+            return reservation.getId();
         } else {
             throw new DateUnavailableException(client, startTime, duration);
         }
 
+    }
+
+    ReservationId cancel(ReservationId reservationId){
+        reservations.removeIf(reservation -> reservation.getId().equals(reservationId));
+        return reservationId;
     }
 
     boolean isReserved(LocalDateTime dateTime, Duration serviceDuration) {
@@ -36,5 +44,10 @@ class Schedule {
                 .filter(r -> r.doesCollide(dateTime, dateTime.plus(serviceDuration)))
                 .findAny()
                 .isEmpty();
+    }
+
+    boolean contains(ReservationId reservationId) {
+        return reservations.stream()
+                .anyMatch(r -> r.getId().equals(reservationId));
     }
 }

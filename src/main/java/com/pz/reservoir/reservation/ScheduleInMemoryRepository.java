@@ -27,4 +27,13 @@ public class ScheduleInMemoryRepository implements ScheduleRepository<Schedule> 
                 .filter(schedule -> schedule.getDate().equals(date))
                 .findAny();
     }
+
+    @Override
+    public Optional<Schedule> findByReservation(ReservationId reservationId) {
+        return scheduleMap
+                .values()
+                .stream()
+                .filter( s -> s.contains(reservationId))
+                .findAny();
+    }
 }
