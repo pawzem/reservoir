@@ -16,7 +16,8 @@ class ReservationFacadeTest {
 
     @BeforeEach
     void setUp() {
-        reservationFacade = new ReservationFacade();
+        var reservationConfig = new ReservationConfiguration();
+        reservationFacade = reservationConfig.reservationFacade(new ScheduleInMemoryRepository());
     }
 
     @Test
@@ -27,11 +28,11 @@ class ReservationFacadeTest {
         var request = new ReservationRequest(now, serviceDuration, PartyIdFactory.generate(), PartyIdFactory.generate());
 
         //when
-        ReservationId reservationId = reservationFacade.reserve(request);
+        ScheduleId scheduleId = reservationFacade.reserve(request);
 
         //then
         assertAll(
-                () -> assertNotNull(reservationId),
+                () -> assertNotNull(scheduleId),
                 () -> assertFalse(reservationFacade.isAvailable(now, serviceDuration))
         );
 
