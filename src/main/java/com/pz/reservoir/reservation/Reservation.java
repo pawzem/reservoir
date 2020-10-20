@@ -18,11 +18,11 @@ class Reservation {
     }
 
     private boolean startsAfterReservationEnds(LocalDateTime askedStartTime) {
-        return endTime.isBefore(askedStartTime);
+        return endTime.isBefore(askedStartTime) || endTime.equals(askedStartTime);
     }
 
     private boolean endBeforeReservationStarts(LocalDateTime askedEndTime) {
-        return startTime.isAfter(askedEndTime);
+        return startTime.isAfter(askedEndTime) || startTime.equals(askedEndTime);
     }
 
     private boolean endTimeAfterStartTime(LocalDateTime askedStartTime, LocalDateTime askedEndTime) {

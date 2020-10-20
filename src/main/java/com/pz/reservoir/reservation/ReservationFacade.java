@@ -37,7 +37,7 @@ public class ReservationFacade {
 
     public boolean isAvailable(LocalDateTime dateTime, Duration serviceDuration) {
         Optional<Schedule> schedule = scheduleRepository.findByDate(dateTime.toLocalDate());
-        return schedule.map(s -> s.isAvailable(dateTime, serviceDuration))
+        return schedule.map(s -> s.isReserved(dateTime, serviceDuration))
                 .orElse(Boolean.TRUE);
     }
 }

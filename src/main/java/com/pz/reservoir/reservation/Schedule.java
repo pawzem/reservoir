@@ -23,7 +23,7 @@ class Schedule {
 
     void reserve(PartyId client, LocalDateTime startTime, Duration duration) {
 
-        if(isAvailable(startTime, duration)){
+        if(isReserved(startTime, duration)){//TODO reservation policy?
             reservations.add(new Reservation(ReservationId.of(), startTime, startTime.plus(duration), client));
         } else {
             throw new DataUnavailableException(client, startTime, duration);
@@ -31,7 +31,7 @@ class Schedule {
 
     }
 
-    boolean isAvailable(LocalDateTime dateTime, Duration serviceDuration) {
+    boolean isReserved(LocalDateTime dateTime, Duration serviceDuration) {
         return reservations.stream()
                 .filter(r -> r.doesCollide(dateTime, dateTime.plus(serviceDuration)))
                 .findAny()
