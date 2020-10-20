@@ -1,5 +1,6 @@
 package com.pz.reservoir.reservation;
 
+import com.pz.reservoir.party.PartyId;
 import com.pz.reservoir.reservation.dto.ReservationRequest;
 import lombok.AllArgsConstructor;
 
@@ -28,11 +29,13 @@ public class ReservationFacade {
         return ScheduleFactory.createNew(reservation.getStartTime().toLocalDate());
     }
 
-    public ScheduleId cancel(ScheduleId scheduleId){
+    public ScheduleId cancel(ReservationId reservationId){
+        //TODO
         return ScheduleId.of();
     }
 
-    public ScheduleId cancel(LocalDateTime startTime, LocalDateTime endTime){
+    public ScheduleId cancel(PartyId workstationId, LocalDateTime startTime, LocalDateTime endTime){
+        //TODO
         return ScheduleId.of();
     }
 
