@@ -25,9 +25,10 @@ class Schedule {
 
         if(isAvailable(startTime, duration)){
             reservations.add(new Reservation(ReservationId.of(), startTime, startTime.plus(duration), client));
+        } else {
+            throw new DataUnavailableException(client, startTime, duration);
         }
 
-        throw new DataUnavailableException(client, startTime, duration);
     }
 
     boolean isAvailable(LocalDateTime dateTime, Duration serviceDuration) {
