@@ -33,7 +33,7 @@ class Schedule {
 
     boolean isAvailable(LocalDateTime dateTime, Duration serviceDuration) {
         return reservations.stream()
-                .filter(r -> r.isAvailable(dateTime, dateTime.plus(serviceDuration)))
+                .filter(r -> r.doesCollide(dateTime, dateTime.plus(serviceDuration)))
                 .findAny()
                 .isEmpty();
     }

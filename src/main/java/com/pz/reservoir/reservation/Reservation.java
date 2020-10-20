@@ -12,8 +12,20 @@ class Reservation {
     private final LocalDateTime endTime;
     private final PartyId client;
 
-    boolean isAvailable(LocalDateTime askedStartTime, LocalDateTime askedEndTime){
-        return askedStartTime.isBefore(askedEndTime) && (startTime.isAfter(askedEndTime) || endTime.isBefore(askedStartTime));
+    boolean doesCollide(LocalDateTime askedStartTime, LocalDateTime askedEndTime){
+        return !(endTimeAfterStartTime(askedStartTime, askedEndTime) && (endBeforeReservationStarts(askedEndTime) || startsAfterReservationEnds(askedStartTime)));
 
+    }
+
+    private boolean startsAfterReservationEnds(LocalDateTime askedStartTime) {
+        return endTime.isBefore(askedStartTime);
+    }
+
+    private boolean endBeforeReservationStarts(LocalDateTime askedEndTime) {
+        return startTime.isAfter(askedEndTime);
+    }
+
+    private boolean endTimeAfterStartTime(LocalDateTime askedStartTime, LocalDateTime askedEndTime) {
+        return askedStartTime.isBefore(askedEndTime);
     }
 }
