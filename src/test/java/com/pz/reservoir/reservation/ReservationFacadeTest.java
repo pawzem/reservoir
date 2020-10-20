@@ -27,7 +27,7 @@ class ReservationFacadeTest {
         var request = new ReservationRequest(now, serviceDuration, PartyIdFactory.generate(), PartyIdFactory.generate());
 
         //when
-        String reservationId = reservationFacade.reserve(request);
+        ReservationId reservationId = reservationFacade.reserve(request);
 
         //then
         assertAll(

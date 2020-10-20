@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ReservationFacade {
 
-    public String reserve(ReservationRequest reservation){
-        return "";
+    public ReservationId reserve(ReservationRequest reservation){
+        return ReservationId.of();
     }
 
-    public String cancel(String reservationId){
-        return "";
+    public ReservationId cancel(ReservationId reservationId){
+        return ReservationId.of();
     }
 
     public boolean isAvailable(LocalDateTime now, Duration serviceDuration) {
