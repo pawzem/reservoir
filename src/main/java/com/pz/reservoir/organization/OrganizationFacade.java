@@ -4,6 +4,7 @@ import com.pz.reservoir.organization.dto.Firm;
 import com.pz.reservoir.organization.dto.Branch;
 import com.pz.reservoir.organization.dto.Workstation;
 import com.pz.reservoir.party.*;
+import com.pz.reservoir.party.address.EmailAddress;
 import com.pz.reservoir.party.address.TelecomAddress;
 import com.pz.reservoir.party.address.WebPageAddress;
 import com.pz.reservoir.relationship.PartyRelationShipRepository;
@@ -15,6 +16,7 @@ import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class OrganizationFacade {
@@ -28,13 +30,28 @@ public class OrganizationFacade {
     public PartyId addCompany(Firm firmDto){
         var telecomAddress = new TelecomAddress(firmDto.getPhoneNumber());
         var webAddress = new WebPageAddress(firmDto.getWebsite());
-        var email = new WebPageAddress(firmDto.getEmail());
+        var email = new EmailAddress(firmDto.getEmail());
         List<Address> addresses = List.of(telecomAddress, webAddress, email);
 
 
         var  company = PartyFactory.createCompany(firmDto.getDisplayName(), addresses, List.of(), Set.of());
 
         return companyPartyRepository.save(company);
+    }
+
+    public List<Firm> getOrganizations() {
+        //move to query when db introduced, mapping should be handled by deserialization from document
+        return companyPartyRepository.findAll()
+                .stream()
+                .map(company -> {
+                    company.getAddresses();
+                    var addresses = company.getAddresses();
+                    var phoneNumber = addresses.stream().filter(address -> address instanceof TelecomAddress).findAny().map(Address::getAddress).orElse("");
+                    var webAddress = addresses.stream().filter(address -> address instanceof WebPageAddress).findAny().map(Address::getAddress).orElse("");
+                    var email = addresses.stream().filter(address -> address instanceof EmailAddress).findAny().map(Address::getAddress).orElse("");
+                    return new Firm(company.getPartyId().getId(), company.getOrganizationName().getName(), phoneNumber,email,webAddress);
+                })
+                .collect(Collectors.toUnmodifiableList());
     }
 
     public Company getCompany(PartyId id){
@@ -88,5 +105,6 @@ public class OrganizationFacade {
     public WorkstationOwnership getWorkstationRelationship(RelationshipIdentifier workstationRelationshipId){
         return workstationOwnershipPartyRelationShipRepository.find(workstationRelationshipId);
     }
+
 
 }

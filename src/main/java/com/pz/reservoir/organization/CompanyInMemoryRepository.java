@@ -5,6 +5,7 @@ import com.pz.reservoir.party.PartyId;
 import com.pz.reservoir.party.PartyRepository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CompanyInMemoryRepository implements PartyRepository<Company> {
@@ -20,5 +21,10 @@ public class CompanyInMemoryRepository implements PartyRepository<Company> {
     @Override
     public Company find(PartyId id) {
         return organizationMap.get(id);
+    }
+
+    @Override
+    public List<Company> findAll() {
+        return List.copyOf(organizationMap.values());
     }
 }

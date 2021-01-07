@@ -27,7 +27,7 @@ class OrganizationFacadeTest {
     @Test
     void addCompany() {
         //given
-        var firm = new Firm("EvilCorp", "00000000", "test@test", "www.tst.pl");
+        var firm = new Firm(null,"EvilCorp", "00000000", "test@test", "www.tst.pl");
 
         //when
         PartyId partyId = organizationFacade.addCompany(firm);
@@ -43,7 +43,7 @@ class OrganizationFacadeTest {
     @Test
     void addUnit() {
         //given
-        var firm = new Firm("EvilCorp", "00000000", "test@test", "www.tst.pl");
+        var firm = new Firm(null,"EvilCorp", "00000000", "test@test", "www.tst.pl");
         PartyId companyId = organizationFacade.addCompany(firm);
         var branchDto = new Branch(companyId.getId(), "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
 
@@ -61,7 +61,7 @@ class OrganizationFacadeTest {
     @Test
     void addWorkstations() {
         //given
-        var firm = new Firm("EvilCorp", "00000000", "test@test", "www.tst.pl");
+        var firm = new Firm(null,"EvilCorp", "00000000", "test@test", "www.tst.pl");
         PartyId companyId = organizationFacade.addCompany(firm);
         var branchDto = new Branch(companyId.getId(), "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
         RelationshipIdentifier relationshipIdentifier = organizationFacade.addBranch(branchDto);

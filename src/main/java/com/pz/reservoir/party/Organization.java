@@ -12,6 +12,7 @@ public abstract class Organization extends Party{
 
     Organization(PartyId partyId, OrganizationName organizationName, List<Address> addresses, List<RegisteredIdentifier> identifier, Set<Preference> preferences) {
         super(partyId, addresses, identifier, preferences);
+        this.organizationName = organizationName;
     }
 
     @Override

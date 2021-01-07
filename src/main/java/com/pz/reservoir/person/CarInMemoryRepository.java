@@ -5,11 +5,12 @@ import com.pz.reservoir.party.PartyId;
 import com.pz.reservoir.party.PartyRepository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CarInMemoryRepository implements PartyRepository<Car> {
 
-    private Map<PartyId, Car> cars = new HashMap<>();
+    private final Map<PartyId, Car> cars = new HashMap<>();
 
     @Override
     public PartyId save(Car party) {
@@ -20,5 +21,10 @@ public class CarInMemoryRepository implements PartyRepository<Car> {
     @Override
     public Car find(PartyId id) {
         return cars.get(id);
+    }
+
+    @Override
+    public List<Car> findAll() {
+        return List.copyOf(cars.values());
     }
 }

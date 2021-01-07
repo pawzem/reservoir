@@ -5,6 +5,7 @@ import com.pz.reservoir.party.PartyId;
 import com.pz.reservoir.party.PartyRepository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BranchInMemoryRepository implements PartyRepository<OrganizationUnit> {
@@ -20,5 +21,10 @@ public class BranchInMemoryRepository implements PartyRepository<OrganizationUni
     @Override
     public OrganizationUnit find(PartyId id) {
         return organizationMap.get(id);
+    }
+
+    @Override
+    public List<OrganizationUnit> findAll() {
+        return List.copyOf(organizationMap.values());
     }
 }
