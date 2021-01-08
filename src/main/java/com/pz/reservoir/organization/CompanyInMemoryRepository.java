@@ -38,7 +38,6 @@ public class CompanyInMemoryRepository implements CompanyRepository {
         return this.findAll()
                 .stream()
                 .map(company -> {
-                    company.getAddresses();
                     var addresses = company.getAddresses();
                     var phoneNumber = addresses.stream().filter(address -> address instanceof TelecomAddress).findAny().map(Address::getAddress).orElse("");
                     var webAddress = addresses.stream().filter(address -> address instanceof WebPageAddress).findAny().map(Address::getAddress).orElse("");

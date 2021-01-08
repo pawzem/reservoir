@@ -23,7 +23,7 @@ public class OrganizationFacade {
 
     private final CompanyRepository companyPartyRepository;
     private final PartyRepository<OrganizationUnit> organizationUnitRepository;
-    private final PartyRelationShipRepository<CompanyBranch> branchRelationshipRepository;
+    private final BranchRelationshipRepository branchRelationshipRepository;
     private final PartyRelationShipRepository<WorkstationOwnership> workstationOwnershipPartyRelationShipRepository;
     //TODO each type in different package with shared kernel? NOw commits affect to many packages
 
@@ -53,6 +53,11 @@ public class OrganizationFacade {
 
     public CompanyBranch getBranchRelationship(RelationshipIdentifier branchRelationshipId){
         return branchRelationshipRepository.find(branchRelationshipId);
+    }
+
+    public List<Branch> getCompanyBranches(PartyId companyId){
+
+        return branchRelationshipRepository.findCompanyBranches(companyId);
     }
 
     public RelationshipIdentifier addBranch(Branch branchDto){

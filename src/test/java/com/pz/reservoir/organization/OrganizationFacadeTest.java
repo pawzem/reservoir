@@ -18,9 +18,10 @@ class OrganizationFacadeTest {
 
     @BeforeEach
     void setUp() {
+        var organizationUnitRepository = new BranchInMemoryRepository();
         organizationFacade = new OrganizationFacade(new CompanyInMemoryRepository(),
-                new BranchInMemoryRepository(),
-                new BranchRelationshipInMemoryRepository(),
+                organizationUnitRepository,
+                new BranchRelationshipInMemoryRepository(organizationUnitRepository),
                 new WorkstationRelationshipInMemoryRepository()
                 );
     }
@@ -59,11 +60,11 @@ class OrganizationFacadeTest {
     }
 
     @Test
-    void shouldAddUnit() {
+    void shouldAddBranch() {
         //given
         var firm = new Firm(null,"EvilCorp", "00000000", "test@test", "www.tst.pl");
         PartyId companyId = organizationFacade.addCompany(firm);
-        var branchDto = new Branch(companyId.getId(), "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
+        var branchDto = new Branch(companyId.getId(), null, "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
 
         //when
         RelationshipIdentifier relationshipIdentifier = organizationFacade.addBranch(branchDto);
@@ -77,11 +78,30 @@ class OrganizationFacadeTest {
     }
 
     @Test
+    void shouldReturnCompanyBranches() {
+        //given
+        var firm = new Firm(null,"EvilCorp", "00000000", "test@test", "www.tst.pl");
+        PartyId companyId = organizationFacade.addCompany(firm);
+        var branchDto = new Branch(companyId.getId(), null, "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
+        RelationshipIdentifier relationshipIdentifier = organizationFacade.addBranch(branchDto);
+
+        //when
+        List<Branch> companyBranches = organizationFacade.getCompanyBranches(companyId);
+
+
+        //then
+        assertAll(
+                () -> assertEquals(1, companyBranches.size()),
+                () -> assertEquals(companyBranches.get(0).getDisplayName(), branchDto.getDisplayName())
+        );
+    }
+
+    @Test
     void shouldAddWorkstations() {
         //given
         var firm = new Firm(null,"EvilCorp", "00000000", "test@test", "www.tst.pl");
         PartyId companyId = organizationFacade.addCompany(firm);
-        var branchDto = new Branch(companyId.getId(), "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
+        var branchDto = new Branch(companyId.getId(), null, "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
         RelationshipIdentifier relationshipIdentifier = organizationFacade.addBranch(branchDto);
 
         Workstation firstWorkstationDto = new Workstation(branchDto.getOrganizationId(),"workstation1");

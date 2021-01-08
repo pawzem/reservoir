@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public class Branch {
     private final String organizationId;
+    private final String branchId;
     private final String displayName;
     private final String phoneNumber;
     private final String email;

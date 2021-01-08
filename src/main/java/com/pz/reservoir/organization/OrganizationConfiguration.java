@@ -16,7 +16,7 @@ class OrganizationConfiguration {
     @Bean
     OrganizationFacade companyFacade(CompanyRepository companyRepository,
                                      PartyRepository<OrganizationUnit> branchRepository,
-                                     PartyRelationShipRepository<CompanyBranch> branchRelationshipRepository,
+                                     BranchRelationshipRepository branchRelationshipRepository,
                                      PartyRelationShipRepository<WorkstationOwnership> workstationOwnershipPartyRelationShipRepository){
         return new OrganizationFacade(companyRepository,
                 branchRepository,
@@ -39,8 +39,8 @@ class OrganizationConfiguration {
 
     @Bean
     @Profile("InMemoryRepository")
-    PartyRelationShipRepository<CompanyBranch> branchRelationshipRepository(){
-        return new BranchRelationshipInMemoryRepository();
+    BranchRelationshipRepository branchRelationshipRepository(PartyRepository<OrganizationUnit> branchRepository){
+        return new BranchRelationshipInMemoryRepository(branchRepository);
     }
 
     @Bean
