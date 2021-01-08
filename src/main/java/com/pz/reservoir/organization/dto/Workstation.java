@@ -7,5 +7,6 @@ import lombok.Getter;
 @Getter
 public class Workstation {
     private final String organizationUnitId;
+    private final String workstationId;
     private final String displayName;
 }

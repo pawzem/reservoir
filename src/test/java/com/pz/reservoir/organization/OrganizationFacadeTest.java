@@ -104,7 +104,7 @@ class OrganizationFacadeTest {
         var branchDto = new Branch(companyId.getId(), null, "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
         RelationshipIdentifier relationshipIdentifier = organizationFacade.addBranch(branchDto);
 
-        Workstation firstWorkstationDto = new Workstation(branchDto.getOrganizationId(),"workstation1");
+        Workstation firstWorkstationDto = new Workstation(branchDto.getOrganizationId(), null,"workstation1");
 
         //when
 
