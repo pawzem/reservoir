@@ -1,11 +1,7 @@
 package com.pz.reservoir.organization;
 
-import com.pz.reservoir.party.Company;
 import com.pz.reservoir.party.OrganizationUnit;
 import com.pz.reservoir.party.PartyRepository;
-import com.pz.reservoir.relationship.PartyRelationShipRepository;
-import com.pz.reservoir.relationship.relationships.CompanyBranch;
-import com.pz.reservoir.relationship.relationships.WorkstationOwnership;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -17,7 +13,7 @@ class OrganizationConfiguration {
     OrganizationFacade companyFacade(CompanyRepository companyRepository,
                                      PartyRepository<OrganizationUnit> branchRepository,
                                      BranchRelationshipRepository branchRelationshipRepository,
-                                     PartyRelationShipRepository<WorkstationOwnership> workstationOwnershipPartyRelationShipRepository){
+                                     WorkstationRelationshipRepository workstationOwnershipPartyRelationShipRepository){
         return new OrganizationFacade(companyRepository,
                 branchRepository,
                 branchRelationshipRepository,
@@ -45,8 +41,8 @@ class OrganizationConfiguration {
 
     @Bean
     @Profile("InMemoryRepository")
-    PartyRelationShipRepository<WorkstationOwnership> workstationRelationshipRepository(){
-        return new WorkstationRelationshipInMemoryRepository();
+    WorkstationRelationshipRepository workstationRelationshipRepository(PartyRepository<OrganizationUnit> workstationRepository){
+        return new WorkstationRelationshipInMemoryRepository(workstationRepository);
     }
 
 }

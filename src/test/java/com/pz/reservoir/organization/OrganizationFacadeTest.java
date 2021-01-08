@@ -22,7 +22,7 @@ class OrganizationFacadeTest {
         organizationFacade = new OrganizationFacade(new CompanyInMemoryRepository(),
                 organizationUnitRepository,
                 new BranchRelationshipInMemoryRepository(organizationUnitRepository),
-                new WorkstationRelationshipInMemoryRepository()
+                new WorkstationRelationshipInMemoryRepository(organizationUnitRepository)
                 );
     }
 
@@ -83,7 +83,7 @@ class OrganizationFacadeTest {
         var firm = new Firm(null,"EvilCorp", "00000000", "test@test", "www.tst.pl");
         PartyId companyId = organizationFacade.addCompany(firm);
         var branchDto = new Branch(companyId.getId(), null, "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
-        RelationshipIdentifier relationshipIdentifier = organizationFacade.addBranch(branchDto);
+        organizationFacade.addBranch(branchDto);
 
         //when
         List<Branch> companyBranches = organizationFacade.getCompanyBranches(companyId);
@@ -103,8 +103,9 @@ class OrganizationFacadeTest {
         PartyId companyId = organizationFacade.addCompany(firm);
         var branchDto = new Branch(companyId.getId(), null, "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
         RelationshipIdentifier relationshipIdentifier = organizationFacade.addBranch(branchDto);
+        PartyId branchId = organizationFacade.getBranchRelationship(relationshipIdentifier).getClientPartyRole().getParty();
 
-        Workstation firstWorkstationDto = new Workstation(branchDto.getOrganizationId(), null,"workstation1");
+        Workstation firstWorkstationDto = new Workstation(branchId.getId(), null,"workstation1");
 
         //when
 
@@ -115,6 +116,29 @@ class OrganizationFacadeTest {
                 () -> assertNotNull(firstWorkstationRelationshipIdentifier),
                 () -> assertNotNull(organizationFacade.getWorkstationRelationship(firstWorkstationRelationshipIdentifier)),
                 () -> assertNotNull(organizationFacade.getWorkStation(organizationFacade.getWorkstationRelationship(firstWorkstationRelationshipIdentifier).getClientPartyRole().getParty()))
+        );
+    }
+
+    @Test
+    void shouldReturnWorkstationsForBranch() {
+        //given
+        var firm = new Firm(null,"EvilCorp", "00000000", "test@test", "www.tst.pl");
+        PartyId companyId = organizationFacade.addCompany(firm);
+        var branchDto = new Branch(companyId.getId(), null, "Gliwice", "000000", "dasdA@dsadas", "www.dsada.pl");
+        RelationshipIdentifier relationshipIdentifier = organizationFacade.addBranch(branchDto);
+        PartyId branchId = organizationFacade.getBranchRelationship(relationshipIdentifier).getClientPartyRole().getParty();
+        String workstationName = "workstation1";
+        Workstation firstWorkstationDto = new Workstation(branchId.getId(), null, workstationName);
+        organizationFacade.addWorkstation(firstWorkstationDto);
+
+        //when
+        List<Workstation> branchWorkstations = organizationFacade.getBranchWorkstations(branchId);
+
+
+        //then
+        assertAll(
+                () -> assertEquals(1, branchWorkstations.size()),
+                () -> assertEquals(workstationName, branchWorkstations.get(0).getDisplayName())
         );
     }
 
