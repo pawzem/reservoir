@@ -8,7 +8,6 @@ import com.pz.reservoir.party.PartyRepository;
 import com.pz.reservoir.party.address.EmailAddress;
 import com.pz.reservoir.party.address.TelecomAddress;
 import com.pz.reservoir.party.address.WebPageAddress;
-import com.pz.reservoir.relationship.PartyRelationShipRepository;
 import com.pz.reservoir.relationship.RelationshipIdentifier;
 import com.pz.reservoir.relationship.relationships.CompanyBranch;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class BranchRelationshipInMemoryRepository implements BranchRelationshipRepository {
+class BranchRelationshipInMemoryRepository implements BranchRelationshipRepository {
 
     private final Map<RelationshipIdentifier, CompanyBranch> relationshipBranch = new HashMap<>();
     private final PartyRepository<OrganizationUnit> branchRepository;

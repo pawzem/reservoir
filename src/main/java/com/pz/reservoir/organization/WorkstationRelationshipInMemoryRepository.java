@@ -1,17 +1,10 @@
 package com.pz.reservoir.organization;
 
-import com.pz.reservoir.organization.dto.Branch;
 import com.pz.reservoir.organization.dto.Workstation;
-import com.pz.reservoir.party.Address;
 import com.pz.reservoir.party.OrganizationUnit;
 import com.pz.reservoir.party.PartyId;
 import com.pz.reservoir.party.PartyRepository;
-import com.pz.reservoir.party.address.EmailAddress;
-import com.pz.reservoir.party.address.TelecomAddress;
-import com.pz.reservoir.party.address.WebPageAddress;
-import com.pz.reservoir.relationship.PartyRelationShipRepository;
 import com.pz.reservoir.relationship.RelationshipIdentifier;
-import com.pz.reservoir.relationship.relationships.CompanyBranch;
 import com.pz.reservoir.relationship.relationships.WorkstationOwnership;
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +15,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class WorkstationRelationshipInMemoryRepository implements WorkstationRelationshipRepository {
+class WorkstationRelationshipInMemoryRepository implements WorkstationRelationshipRepository {
 
     private final Map<RelationshipIdentifier, WorkstationOwnership> workstationRelationships = new HashMap<>();
     private final PartyRepository<OrganizationUnit> workstationRepository;

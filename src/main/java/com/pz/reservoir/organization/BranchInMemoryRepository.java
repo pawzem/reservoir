@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BranchInMemoryRepository implements PartyRepository<OrganizationUnit> {
+class BranchInMemoryRepository implements PartyRepository<OrganizationUnit> {
 
     private final Map<PartyId, OrganizationUnit> organizationMap = new HashMap<>();
 

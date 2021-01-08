@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class CompanyInMemoryRepository implements CompanyRepository {
+class CompanyInMemoryRepository implements CompanyRepository {
 
     private final Map<PartyId, Company> organizationMap = new HashMap<>();
 
