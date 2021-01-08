@@ -8,8 +8,9 @@ import com.pz.reservoir.relationship.RelationshipIdentifier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class OrganizationFacadeTest {
 
@@ -25,7 +26,7 @@ class OrganizationFacadeTest {
     }
 
     @Test
-    void addCompany() {
+    void shouldAddCompany() {
         //given
         var firm = new Firm(null,"EvilCorp", "00000000", "test@test", "www.tst.pl");
 
@@ -41,7 +42,24 @@ class OrganizationFacadeTest {
     }
 
     @Test
-    void addUnit() {
+    void shouldReturnCompanies() {
+        //given
+        var firm = new Firm(null,"EvilCorp", "00000000", "test@test", "www.tst.pl");
+        PartyId partyId = organizationFacade.addCompany(firm);
+
+        //when
+        List<Firm> companies = organizationFacade.getCompanies();
+
+        //then
+        assertAll(
+                () -> assertEquals(1, companies.size()),
+                () -> assertEquals(partyId.getId(), companies.get(0).getId())
+        );
+
+    }
+
+    @Test
+    void shouldAddUnit() {
         //given
         var firm = new Firm(null,"EvilCorp", "00000000", "test@test", "www.tst.pl");
         PartyId companyId = organizationFacade.addCompany(firm);
@@ -59,7 +77,7 @@ class OrganizationFacadeTest {
     }
 
     @Test
-    void addWorkstations() {
+    void shouldAddWorkstations() {
         //given
         var firm = new Firm(null,"EvilCorp", "00000000", "test@test", "www.tst.pl");
         PartyId companyId = organizationFacade.addCompany(firm);

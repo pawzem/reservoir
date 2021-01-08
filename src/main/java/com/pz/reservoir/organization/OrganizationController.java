@@ -19,7 +19,7 @@ class OrganizationController {
 
     @GetMapping(value="api/v1/organization", produces = MediaType.APPLICATION_JSON_VALUE)
     List<Firm> getFirms(){
-        return organizationFacade.getOrganizations();
+        return organizationFacade.getCompanies();
     }
 
     @PostMapping(value = "api/v1/organization", consumes =  MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

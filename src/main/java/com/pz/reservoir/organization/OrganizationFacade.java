@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class OrganizationFacade {
 
-    private final PartyRepository<Company> companyPartyRepository;
+    private final CompanyRepository companyPartyRepository;
     private final PartyRepository<OrganizationUnit> organizationUnitRepository;
     private final PartyRelationShipRepository<CompanyBranch> branchRelationshipRepository;
     private final PartyRelationShipRepository<WorkstationOwnership> workstationOwnershipPartyRelationShipRepository;
@@ -39,19 +39,8 @@ public class OrganizationFacade {
         return companyPartyRepository.save(company);
     }
 
-    public List<Firm> getOrganizations() {
-        //move to query when db introduced, mapping should be handled by deserialization from document
-        return companyPartyRepository.findAll()
-                .stream()
-                .map(company -> {
-                    company.getAddresses();
-                    var addresses = company.getAddresses();
-                    var phoneNumber = addresses.stream().filter(address -> address instanceof TelecomAddress).findAny().map(Address::getAddress).orElse("");
-                    var webAddress = addresses.stream().filter(address -> address instanceof WebPageAddress).findAny().map(Address::getAddress).orElse("");
-                    var email = addresses.stream().filter(address -> address instanceof EmailAddress).findAny().map(Address::getAddress).orElse("");
-                    return new Firm(company.getPartyId().getId(), company.getOrganizationName().getName(), phoneNumber,email,webAddress);
-                })
-                .collect(Collectors.toUnmodifiableList());
+    public List<Firm> getCompanies() {
+        return companyPartyRepository.findAllFirms();
     }
 
     public Company getCompany(PartyId id){

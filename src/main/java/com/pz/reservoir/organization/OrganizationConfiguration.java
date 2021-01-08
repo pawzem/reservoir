@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Profile;
 class OrganizationConfiguration {
 
     @Bean
-    OrganizationFacade companyFacade(PartyRepository<Company> companyRepository,
+    OrganizationFacade companyFacade(CompanyRepository companyRepository,
                                      PartyRepository<OrganizationUnit> branchRepository,
                                      PartyRelationShipRepository<CompanyBranch> branchRelationshipRepository,
                                      PartyRelationShipRepository<WorkstationOwnership> workstationOwnershipPartyRelationShipRepository){
@@ -27,7 +27,7 @@ class OrganizationConfiguration {
 
     @Bean
     @Profile("InMemoryRepository")
-    PartyRepository<Company> companyRepository(){
+    CompanyRepository companyRepository(){
         return new CompanyInMemoryRepository();
     }
 
