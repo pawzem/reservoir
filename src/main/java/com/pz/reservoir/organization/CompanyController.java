@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-class OrganizationController {
+class CompanyController {
 
     private final OrganizationFacade organizationFacade;
 
